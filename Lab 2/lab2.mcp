@@ -29,24 +29,28 @@ file_001=.
 file_002=.
 file_003=.
 file_004=.
+file_005=.
 [GENERATED_FILES]
 file_000=no
 file_001=no
 file_002=no
 file_003=no
 file_004=no
+file_005=no
 [OTHER_FILES]
 file_000=no
 file_001=no
 file_002=no
 file_003=no
 file_004=no
+file_005=no
 [FILE_INFO]
 file_000=lab2p1_1.c
 file_001=lab2p2_1.C
 file_002=lcd.c
-file_003=lcd.h
-file_004=C:\Program Files (x86)\Microchip\MPLAB C30\support\PIC24F\h\p24FJ64GA002.h
+file_003=testing.c
+file_004=lcd.h
+file_005=C:\Program Files (x86)\Microchip\MPLAB C30\support\PIC24F\h\p24FJ64GA002.h
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=
