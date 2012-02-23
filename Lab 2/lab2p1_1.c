@@ -126,6 +126,9 @@ int main(void)
 	// TODO: Configure TRIS register bits for swtich input at RB2.
 	TRISBbits.TRISB2 = 1;
 
+	// Configure SW1 on the start board as input on RB5
+	TRISBbits.TRISB5 = 1;
+
 	// TODO: Configure CNPU register bits to enable internal pullup resistor for switch 
 	// input.
 	CNPU1bits.CN6PUE = 1;
@@ -163,7 +166,7 @@ int main(void)
 	IFS0bits.T1IF = 0;
 	IEC0bits.T1IE = 1;				
 	
-	// Create an interrupt that triggers when the SW1 is pressed.  I am not going to
+	// Create an interrupt that triggers when the added switch is pressed.  I am not going to
 	// use an ISR but I will use it to find when the user has pressed the attached switch.
 	// Use change notification (CN) interrupt enable (CNEN) register to record changes
 	// at RB2 (pin 14 - CN27) and send and interrupt request when switch changes.
@@ -181,16 +184,20 @@ int main(void)
 		// TODO: Use DebounceDelay() function to debounce button press 
 		// and button release in software.
 		if (IFS1bits.CNIF == 1) {
+
 			if (PORTBbits.RB2 == 0 && LATAbits.LATA0 == 0) {
 				LATAbits.LATA0 = 1;
 				LATAbits.LATA1 = 0;
+				sw_toggle_pause();
 				DebounceDelay();
 				while(PORTBbits.RB2 == 0);
 				DebounceDelay();
 			}
+
 			else if (PORTBbits.RB2 == 0 && LATAbits.LATA0 == 1) {
 				LATAbits.LATA0 = 0;
 				LATAbits.LATA1 = 1;
+				sw_toggle_pause();
 				DebounceDelay();
 				while(PORTBbits.RB2 == 0);
 				DebounceDelay();
@@ -198,9 +205,7 @@ int main(void)
 
 			else if (PORTBbits.RB2 == 1) {
 				DebounceDelay();
-				//DebounceDelay();
 				//printf("release");
-				sw_toggle_pause();
 			}
 			IFS1bits.CNIF =0;
 		}	
@@ -235,8 +240,10 @@ int sw_ticks = 0;
 int sw_is_running = 0;
 
 void sw_reset(){
-	sw_ticks = 0;
-	sw_is_running = 0;
+	if(!sw_is_running){
+		sw_ticks = 0;
+		sw_is_running = 0;
+	}
 }
 
 void sw_toggle_pause()
