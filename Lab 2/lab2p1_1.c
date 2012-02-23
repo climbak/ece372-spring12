@@ -231,7 +231,7 @@ int main(void)
 				//printf("release");
 			}
 			IFS1bits.CNIF =0;
-
+		}
 		if(sw_is_running){
 			printf("timing");
 		}
