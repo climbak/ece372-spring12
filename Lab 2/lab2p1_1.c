@@ -122,6 +122,15 @@ int main(void)
 	// Configure IO1 and IO2 corresponding to RB0 and RB1 to outputs.
 	TRISAbits.TRISA0 = 0; // red LED
 	TRISAbits.TRISA1 = 0; // green LED
+	TRISBbits.TRISB15 = 0;
+        TRISBbits.TRISB14 = 0;
+        TRISBbits.TRISB13 = 0;
+        TRISBbits.TRISB12 = 0;
+
+        LATBbits.LATB15 = 0;
+        LATBbits.LATB14 = 1;
+        LATBbits.LATB13 = 1;
+        LATBbits.LATB12 = 1;
 
 	// TODO: Configure AD1PCFG register for configuring input pins between analog input
 	// and digital IO.
@@ -146,6 +155,7 @@ int main(void)
 	// TODO: Configure CNPU register bits to enable internal pullup resistor for switch 
 	// input.
 	CNPU1bits.CN6PUE = 1;
+	CNPU2bits.CN27PUE = 1;
 
 	// TODO: Set Timer 1's period value regsiter to value for 5 ms. 
 	// Set Timer 1's period value regsiter to value for 5ms. Please note 
@@ -191,7 +201,7 @@ int main(void)
 	IFS1bits.CNIF = 0;
 	IPC4bits.CNIP = 7;
 
-	//printf("Hi");
+	printf("Hi");
 
 	// intitialize counters for stopwatch ( this will hold hundredths of a second )
 	int sw_time = 0;
@@ -208,25 +218,30 @@ int main(void)
 		// and button release in software.
 		if (IFS1bits.CNIF == 1) {
 
-			if (PORTBbits.RB2 == 0 && LATAbits.LATA0 == 0) {
-				LATAbits.LATA0 = 1;
-				LATAbits.LATA1 = 0;
+			if (PORTBbits.RB5 == 0 && LATBbits.LATB15 == 0) {
+				//LATAbits.LATA0 = 1;
+				//LATAbits.LATA1 = 0;
+				LATBbits.LATB15 = 1;
+				LATBbits.LATB14 = 0;
+				
 				sw_toggle_pause();
 				DebounceDelay();
-				while(PORTBbits.RB2 == 0);
+				while(PORTBbits.RB5 == 0);
 				DebounceDelay();
 			}
 
-			else if (PORTBbits.RB2 == 0 && LATAbits.LATA0 == 1) {
-				LATAbits.LATA0 = 0;
-				LATAbits.LATA1 = 1;
+			else if (PORTBbits.RB5 == 0 && LATBbits.LATB15 == 1) {
+				//LATAbits.LATA0 = 0;
+				//LATAbits.LATA1 = 1;
+				LATBbits.LATB15 = 0;
+				LATBbits.LATB14 = 1;
 				sw_toggle_pause();
 				DebounceDelay();
-				while(PORTBbits.RB2 == 0);
+				while(PORTBbits.RB5 == 0);
 				DebounceDelay();
 			}
 
-			else if (PORTBbits.RB2 == 1) {
+			else if (PORTBbits.RB5 == 1) {
 				DebounceDelay();
 				//printf("release");
 			}
