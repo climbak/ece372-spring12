@@ -52,6 +52,20 @@ void DebounceDelay(void) {
 	// Clear Timer 1 interrupt flag to allow another Timer 1 interrupt to occur.
 	IFS0bits.T1IF = 0;
 }
+int sw_ticks = 0;
+int sw_is_running = 0;
+
+void sw_reset(){
+	if(!sw_is_running){
+		sw_ticks = 0;
+		sw_is_running = 0;
+	}
+}
+
+void sw_toggle_pause()
+{
+	sw_is_running = !sw_is_running;
+}
 
 // ******************************************************************************************* //
 
@@ -171,7 +185,8 @@ int main(void)
 	// Use change notification (CN) interrupt enable (CNEN) register to record changes
 	// at RB2 (pin 14 - CN27) and send and interrupt request when switch changes.
 	// Set priority to high.
-	CNEN1bits.CN6IE = 1;
+	CNEN1bits.CN6IE = 1; // Interrupt enable for switch we added
+	CNEN2bits.CN27IE = 1; // Interrupt enable for SW1
 	IFS1bits.CNIF = 0;
 	IPC4bits.CNIP = 7;
 
@@ -236,20 +251,7 @@ void _ISR _T1Interrupt(void)
 	}
 }
 
-int sw_ticks = 0;
-int sw_is_running = 0;
 
-void sw_reset(){
-	if(!sw_is_running){
-		sw_ticks = 0;
-		sw_is_running = 0;
-	}
-}
-
-void sw_toggle_pause()
-{
-	sw_is_running = !sw_is_running;
-}
 
 
 // ******************************************************************************************* //
