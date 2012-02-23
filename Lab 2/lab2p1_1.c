@@ -50,14 +50,14 @@ void DebounceDelay(void) {
 		
 	}
 	// Clear Timer 1 interrupt flag to allow another Timer 1 interrupt to occur.
-	IFS0bits.T1IF = 0;
+	
 }
-int sw_ticks = 0;
-int sw_is_running = 0;
+volatile int sw_count = 0;
+volatile int sw_is_running = 0;
 
 void sw_reset(){
 	if(!sw_is_running){
-		sw_ticks = 0;
+		sw_count = 0;
 		sw_is_running = 0;
 	}
 }
@@ -120,8 +120,8 @@ int main(void)
 	// ****************************************************************************** //
 	// TODO: Configure TRIS register bits for Right and Left LED outputs.
 	// Configure IO1 and IO2 corresponding to RB0 and RB1 to outputs.
-	TRISAbits.TRISA0 = 0;
-	TRISAbits.TRISA1 = 0;
+	TRISAbits.TRISA0 = 0; // red LED
+	TRISAbits.TRISA1 = 0; // green LED
 
 	// TODO: Configure AD1PCFG register for configuring input pins between analog input
 	// and digital IO.
@@ -159,21 +159,22 @@ int main(void)
 	//             = 14745600
 	//
 	//    Timer 1 Freq = (Fosc/2) / Prescaler
-	//                 = 14745600 / 256
-	//                 = 57600
+	//                 = 14745600 / 64
+	//                 = 230400
 	//
-	//    PR1 = 5 ms / (1 / (T1 Freq))
-	//        = 5e-3 / (1 / 57600) 
-	//        = 5e-3 * 57600
-	//        = 288 
-	PR1 = 287;		
+	//    PR1 = 1 ms / (1 / (T1 Freq))
+	//        = 1e-3 / (1 / 57600) 
+	//        = 1e-3 * 57600
+	//        = 230 
+	PR1 = 229;		
 	
 	// TODO: Setup Timer 1 to use internal clock (Fosc/2).
 	// Setup Timer 1 control register (T1CON) to:
- 	//     TON           = 0     (Timer1 initially off)
-	//     TCKPS1:TCKPS2 = 11    (set timer prescaler to 1:256)
+ 	//     TON           = 1     (Timer1 initially off)
+	//     TCKPS1:TCKPS2 = 10    (set timer prescaler to 1:64)
 	//     TCS           = 0     (Fosc/2)
-	T1CON = 0b0000000000110000;
+	//T1CON = 0b1000000000100000;
+	T1CON = 0x8020;
 
 	// TODO: Clear Timer 1 value and enable Timer 1 interrupt and reset interrupt flag	
 	TMR1 = 0;	
@@ -192,8 +193,15 @@ int main(void)
 
 	//printf("Hi");
 
+	// intitialize counters for stopwatch ( this will hold hundredths of a second )
+	int sw_time = 0;
+
 	while(1)
 	{
+
+		sw_time = sw_count % 10;
+
+
 		// TODO: For each distinct button press, alternate which
 		// LED is illumintate (on).
 		// TODO: Use DebounceDelay() function to debounce button press 
@@ -223,7 +231,13 @@ int main(void)
 				//printf("release");
 			}
 			IFS1bits.CNIF =0;
-		}	
+
+		if(sw_is_running){
+			printf("timing");
+		}
+		else{
+			printf("stopped");
+		}
 	}
 	return 0;
 }
@@ -242,12 +256,14 @@ int main(void)
 // to ensure additional interrupts can be processed. 
 void _ISR _T1Interrupt(void)
 {
+	// reset interrupt flag
+	IFS0bits.T1IF = 0;
 	//Reset TMR1 to 0 and turn off timer
 	TMR1 = 0;
 	T1CONbits.TON = 0;
 
 	if (sw_is_running){
-		sw_ticks++;
+		sw_count++;
 	}
 }
 
