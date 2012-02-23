@@ -200,6 +200,7 @@ int main(void)
 				DebounceDelay();
 				//DebounceDelay();
 				//printf("release");
+				sw_toggle_pause();
 			}
 			IFS1bits.CNIF =0;
 		}	
@@ -224,6 +225,24 @@ void _ISR _T1Interrupt(void)
 	//Reset TMR1 to 0 and turn off timer
 	TMR1 = 0;
 	T1CONbits.TON = 0;
+
+	if (sw_is_running){
+		sw_ticks++;
+	}
 }
+
+int sw_ticks = 0;
+int sw_is_running = 0;
+
+void sw_reset(){
+	sw_ticks = 0;
+	sw_is_running = 0;
+}
+
+void sw_toggle_pause()
+{
+	sw_is_running = !sw_is_running;
+}
+
 
 // ******************************************************************************************* //
