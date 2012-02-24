@@ -94,6 +94,7 @@ int main(void)
 	T1CONbits.TCKPS = 3;
 	T1CONbits.TON = 1;
 
+
 	// printf by default is mapped to serial communication using UART1.
 	// NOTES:
 	//        1. You must specify a heap size for printf. This is required
@@ -109,21 +110,21 @@ int main(void)
 	// The following code will not work until you have implemented the 
 	// the required LCD functions defined within lcd.c
 	LCDInitialize();
-	LCDPrintString("Running:");
-	LCDMoveCursor(1,0);
-	LCDPrintChar('0');
-	LCDPrintChar('0');
-	LCDPrintChar(':');
-	LCDPrintChar('0');
-	LCDPrintChar('0');
-	LCDPrintChar('.');
-	LCDPrintChar('0');
-	LCDPrintChar('0');
+//	LCDPrintString("Running:");
+//	LCDMoveCursor(1,0);
+//	LCDPrintChar('0');
+//	LCDPrintChar('0');
+//	LCDPrintChar(':');
+//	LCDPrintChar('0');
+//	LCDPrintChar('0');
+//	LCDPrintChar('.');
+//	LCDPrintChar('0');
+//	LCDPrintChar('0');
 
 	while(1)
 	{
-		LCDMoveCursor(1,4);
-		LCDPrintChar(cnt+'0');		
+//		LCDMoveCursor(1,4);
+//		LCDPrintChar(cnt+'0');		
 	}
 	return 0;
 }
@@ -148,5 +149,6 @@ void _ISR _T1Interrupt(void)
 	// Updates cnt to wraparound from 9 to 0 for this demo.
 	cnt = (cnt<9)?(cnt+1):0;
 }
+
 
 // ******************************************************************************************* //
