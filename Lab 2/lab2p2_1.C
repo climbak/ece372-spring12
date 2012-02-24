@@ -105,12 +105,12 @@ int main(void)
 	//           c.) Entering the size of heap, e.g. 512, under Heap Size
 	//        2. printf function is advanced and using printf may require 
 	//           significant code size (6KB-10KB).   
-	printf("Lab 2: Debugging Statements\n\r");
+	printf("\n\n\rLab 2: Debugging Statements");
 
 	// The following code will not work until you have implemented the 
 	// the required LCD functions defined within lcd.c
 	LCDInitialize();
-//	LCDPrintString("Running:");
+	LCDPrintString("Running:");
 //	LCDMoveCursor(1,0);
 //	LCDPrintChar('0');
 //	LCDPrintChar('0');
