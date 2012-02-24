@@ -56,15 +56,25 @@ volatile int sw_count = 0;
 volatile int sw_is_running = 0;
 
 void sw_reset(){
-	if(!sw_is_running){
+	if(sw_is_running){
+		printf("can't clear, running ");
+	}
+	else{
 		sw_count = 0;
 		sw_is_running = 0;
+		printf("resetting ");
 	}
 }
 
 void sw_toggle_pause()
 {
 	sw_is_running = !sw_is_running;
+	if(sw_is_running){
+		printf("timing ");
+	}
+	else{
+		printf("stopped ");
+	}
 }
 
 // ******************************************************************************************* //
@@ -122,15 +132,15 @@ int main(void)
 	// Configure IO1 and IO2 corresponding to RB0 and RB1 to outputs.
 	TRISAbits.TRISA0 = 0; // red LED
 	TRISAbits.TRISA1 = 0; // green LED
-	TRISBbits.TRISB15 = 0;
-        TRISBbits.TRISB14 = 0;
-        TRISBbits.TRISB13 = 0;
-        TRISBbits.TRISB12 = 0;
+		//TRISBbits.TRISB15 = 0;
+        //TRISBbits.TRISB14 = 0;
+        //TRISBbits.TRISB13 = 0;
+        //TRISBbits.TRISB12 = 0;
 
-        LATBbits.LATB15 = 0;
-        LATBbits.LATB14 = 1;
-        LATBbits.LATB13 = 1;
-        LATBbits.LATB12 = 1;
+        //LATBbits.LATB15 = 0;
+        //LATBbits.LATB14 = 1;
+        //LATBbits.LATB13 = 1;
+        //LATBbits.LATB12 = 1;
 
 	// TODO: Configure AD1PCFG register for configuring input pins between analog input
 	// and digital IO.
@@ -201,7 +211,7 @@ int main(void)
 	IFS1bits.CNIF = 0;
 	IPC4bits.CNIP = 7;
 
-	printf("Hi");
+	printf("\n\n\rHi\n\r");
 
 	// intitialize counters for stopwatch ( this will hold hundredths of a second )
 	int sw_time = 0;
@@ -217,41 +227,42 @@ int main(void)
 		// TODO: Use DebounceDelay() function to debounce button press 
 		// and button release in software.
 		if (IFS1bits.CNIF == 1) {
-
-			if (PORTBbits.RB5 == 0 && LATBbits.LATB15 == 0) {
-				//LATAbits.LATA0 = 1;
-				//LATAbits.LATA1 = 0;
-				LATBbits.LATB15 = 1;
-				LATBbits.LATB14 = 0;
+			
+			if (PORTBbits.RB2 == 0 && LATAbits.LATA0 == 0) {
+				LATAbits.LATA0 = 1;
+				LATAbits.LATA1 = 0;
+				//LATBbits.LATB15 = 1;
+				//LATBbits.LATB14 = 0;
 				
 				sw_toggle_pause();
 				DebounceDelay();
-				while(PORTBbits.RB5 == 0);
+				while(PORTBbits.RB2 == 0);
 				DebounceDelay();
 			}
 
-			else if (PORTBbits.RB5 == 0 && LATBbits.LATB15 == 1) {
-				//LATAbits.LATA0 = 0;
-				//LATAbits.LATA1 = 1;
-				LATBbits.LATB15 = 0;
-				LATBbits.LATB14 = 1;
+			else if (PORTBbits.RB2 == 0 && LATAbits.LATA0 == 1) {
+				LATAbits.LATA0 = 0;
+				LATAbits.LATA1 = 1;
+				//LATBbits.LATB15 = 0;
+				//LATBbits.LATB14 = 1;
 				sw_toggle_pause();
 				DebounceDelay();
-				while(PORTBbits.RB5 == 0);
+				while(PORTBbits.RB2 == 0);
 				DebounceDelay();
 			}
 
-			else if (PORTBbits.RB5 == 1) {
+			else if (PORTBbits.RB5 = 1 && PORTBbits.RB2 == 1) {
 				DebounceDelay();
 				//printf("release");
 			}
+
+			else if (PORTBbits.RB5 == 0 && PORTBbits.RB2 == 1){
+				sw_reset();
+			}
+
 			IFS1bits.CNIF =0;
-		}
-		if(sw_is_running){
-			printf("timing");
-		}
-		else{
-			printf("stopped");
+			
+		
 		}
 	}
 	return 0;
