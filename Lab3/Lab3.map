@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_30 (B) ]
+Microchip Technology Inc, vv3_30 (B) ­
 
 Tool Name:
   c:\program files (x86)\microchip\mplab c30\bin\bin\..\bin/pic30-coff-ld.exe
@@ -39,18 +39,34 @@ c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt
                               (_resetPRI)
 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(data_init_standard.o)
                               c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o) (_data_init_standard)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(sprintf_cdnopuxX.XXo)
+                              Lab3_2.o (_sprintf_cdnopuxX)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_cdnopuxX.XXo)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(sprintf_cdnopuxX.XXo) (_vfprintf_cdnopuxX)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_cdnopuxX.XXo) (fputc)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(_iob.XXo)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo) (_outdone)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(flsbuf.XXo)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo) (_flsbuf)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(write.o)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo) (write)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(c30_uart.o)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(write.o) (__C30_UART)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divmoddi3.o)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_cdnopuxX.XXo) (__udivdi3)
 
 
 Program Memory  [Origin = 0x200, Length = 0xa9fa]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200                0x94            0xde  (222)
-.const                       0x294                 0x2             0x3  (3)
-.text                        0x296               0x5ee           0x8e5  (2277)
-.dinit                       0x884                0x20            0x30  (48)
+.text                        0x200               0x9c4           0xea6  (3750)
+.const                       0xbc4                 0x4             0x6  (6)
+.text                        0xbc8               0x614           0x91e  (2334)
+.dinit                      0x11dc                0xe2           0x153  (339)
 
-                     Total program memory used (bytes):          0x9f6  (2550) 3%
+                     Total program memory used (bytes):         0x191d  (6429) 9%
 
 
 Data Memory  [Origin = 0x800, Length = 0x2000]
@@ -60,8 +76,13 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x800                   0             0x2  (2)
 .nbss                        0x802                   0             0x2  (2)
 .ndata                       0x804                   0             0x4  (4)
+.data                        0x808                   0            0xa0  (160)
+.dconst                      0x8a8                   0            0x2a  (42)
+.data                        0x8d2                   0            0x26  (38)
+.bss                         0x8f8                   0             0x6  (6)
+.data                        0x8fe                   0             0x2  (2)
 
-                        Total data memory used (bytes):            0x8  (8) <1%
+                        Total data memory used (bytes):          0x100  (256) 3%
 
 
 Dynamic Memory Usage
@@ -69,9 +90,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x808                              0x1ff8  (8184)
+stack                        0x900                              0x1f00  (7936)
 
-                        Maximum dynamic memory (bytes):         0x1ff8  (8184)
+                        Maximum dynamic memory (bytes):         0x1f00  (7936)
 
 
 External Symbols in Data Memory (by address):
@@ -81,9 +102,21 @@ External Symbols in Data Memory (by address):
                     0x0803                  _returnChar
                     0x0804                  _scanKeypad
                     0x0806                  _cnt_LCD
+                    0x08d2                  __Files
+                    0x08d4                  __iob
+                    0x08f8                  __sobuf
+                    0x08fa                  __sibuf
+                    0x08fc                  __outdone
+                    0x08fe                  ___C30_UART
 
 External Symbols in Data Memory (by name):
 
+                    0x08d2                  __Files
+                    0x08fe                  ___C30_UART
+                    0x08d4                  __iob
+                    0x08fc                  __outdone
+                    0x08fa                  __sibuf
+                    0x08f8                  __sobuf
                     0x0806                  _cnt_LCD
                     0x0800                  _keyPressed
                     0x0802                  _lastKey
@@ -97,40 +130,54 @@ External Symbols in Program Memory (by address):
                   0x000232                  __data_init_standard
                   0x000232                  __data_init
                   0x000290                  __DefaultInterrupt
-                  0x000296                  _main
-                  0x0004ee                  _KeypadInitialize
-                  0x000516                  _KeypadScan
-                  0x000572                  _ScanRows
-                  0x0006d8                  _SetColActive
-                  0x00070e                  _DelayUs
-                  0x00073c                  _EnableLCD
-                  0x000764                  _WriteLCD
-                  0x0007a2                  _LCDInitialize
-                  0x00081c                  _LCDClear
-                  0x000830                  _LCDMoveCursor
-                  0x00085a                  _LCDPrintChar
-                  0x00086a                  _LCDPrintString
+                  0x000328                  ___udivmoddi3
+                  0x0003f6                  ___udivdi3
+                  0x000404                  ___umoddi3
+                  0x00040c                  ___divdi3
+                  0x000446                  ___moddi3
+                  0x000518                  __sprintf_cdnopuxX
+                  0x000546                  __vfprintf_cdnopuxX
+                  0x000bc8                  _main
+                  0x000e46                  _KeypadInitialize
+                  0x000e6e                  _KeypadScan
+                  0x000eca                  _ScanRows
+                  0x001030                  _SetColActive
+                  0x001066                  _DelayUs
+                  0x001094                  _EnableLCD
+                  0x0010bc                  _WriteLCD
+                  0x0010fa                  _LCDInitialize
+                  0x001174                  _LCDClear
+                  0x001188                  _LCDMoveCursor
+                  0x0011b2                  _LCDPrintChar
+                  0x0011c2                  _LCDPrintString
 
 External Symbols in Program Memory (by name):
 
-                  0x00070e                  _DelayUs
-                  0x00073c                  _EnableLCD
-                  0x0004ee                  _KeypadInitialize
-                  0x000516                  _KeypadScan
-                  0x00081c                  _LCDClear
-                  0x0007a2                  _LCDInitialize
-                  0x000830                  _LCDMoveCursor
-                  0x00085a                  _LCDPrintChar
-                  0x00086a                  _LCDPrintString
-                  0x000572                  _ScanRows
-                  0x0006d8                  _SetColActive
-                  0x000764                  _WriteLCD
+                  0x001066                  _DelayUs
+                  0x001094                  _EnableLCD
+                  0x000e46                  _KeypadInitialize
+                  0x000e6e                  _KeypadScan
+                  0x001174                  _LCDClear
+                  0x0010fa                  _LCDInitialize
+                  0x001188                  _LCDMoveCursor
+                  0x0011b2                  _LCDPrintChar
+                  0x0011c2                  _LCDPrintString
+                  0x000eca                  _ScanRows
+                  0x001030                  _SetColActive
+                  0x0010bc                  _WriteLCD
                   0x000290                  __DefaultInterrupt
+                  0x00040c                  ___divdi3
+                  0x000446                  ___moddi3
+                  0x0003f6                  ___udivdi3
+                  0x000328                  ___udivmoddi3
+                  0x000404                  ___umoddi3
                   0x000232                  __data_init
                   0x000232                  __data_init_standard
                   0x000222                  __psv_init
                   0x000200                  __resetPRI
-                  0x000296                  _main
+                  0x000518                  __sprintf_cdnopuxX
+                  0x000546                  __vfprintf_cdnopuxX
+                  0x000bc8                  _main
 
 Memory Configuration
 
@@ -166,7 +213,7 @@ LOAD c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/PIC24F\libpPIC
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200         0x94
+.text             0x000200        0x9c4
  *(.init)
  .init            0x000200         0x32 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o)
                   0x000200                  _resetPRI
@@ -181,9 +228,27 @@ LOAD c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/PIC24F\libpPIC
  .isr             0x000290          0x4 default_isr
                   0x000290                  _DefaultInterrupt
  *(.libc)
+ .libc            0x000294         0x6e c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(write.o)
+                  0x000294                  write
  *(.libm)
+ .libm            0x000302        0x216 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divmoddi3.o)
+                  0x000328                  __udivmoddi3
+                  0x0003f6                  __udivdi3
+                  0x000404                  __umoddi3
+                  0x00040c                  __divdi3
+                  0x000446                  __moddi3
  *(.libdsp)
  *(.lib*)
+ .libc._sprintf_cdnopuxX
+                  0x000518         0x2e c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(sprintf_cdnopuxX.XXo)
+                  0x000518                  _sprintf_cdnopuxX
+ .libc._vfprintf_cdnopuxX
+                  0x000546        0x56a c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_cdnopuxX.XXo)
+                  0x000546                  _vfprintf_cdnopuxX
+ .libc.fputc      0x000ab0         0x8e c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo)
+                  0x000ab0                  fputc
+ .libc._flsbuf    0x000b3e         0x86 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(flsbuf.XXo)
+                  0x000b3e                  _flsbuf
 
 usercode
  *(usercode)
@@ -1072,7 +1137,7 @@ LOAD data_init
 LOAD default_isr
 
 __c30_signature
-                  0x000000         0x1e
+                  0x000000         0x4e
  __c30_signature
                   0x000000          0x6 keypad_2_debug.o
  __c30_signature
@@ -1083,6 +1148,22 @@ __c30_signature
                   0x000012          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o)
  __c30_signature
                   0x000018          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(data_init_standard.o)
+ __c30_signature
+                  0x00001e          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(sprintf_cdnopuxX.XXo)
+ __c30_signature
+                  0x000024          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_cdnopuxX.XXo)
+ __c30_signature
+                  0x00002a          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo)
+ __c30_signature
+                  0x000030          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(_iob.XXo)
+ __c30_signature
+                  0x000036          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(flsbuf.XXo)
+ __c30_signature
+                  0x00003c          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(write.o)
+ __c30_signature
+                  0x000042          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(c30_uart.o)
+ __c30_signature
+                  0x000048          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divmoddi3.o)
 
 .ndata              0x0800          0x2
  .ndata             0x0800          0x2 keypad_2_debug.o
@@ -1099,26 +1180,47 @@ __c30_signature
  .ndata             0x0806          0x2 lcd_1.o
                     0x0806                  cnt_LCD
 
-.const              0x8294          0x2 load address 0x000294  
- .const             0x8294          0x2 Lab3_2.o
+.data               0x0808         0xa0
+ .data              0x0808         0xa0 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_cdnopuxX.XXo)
 
-.text             0x000296        0x5ee
- .text            0x000296        0x258 Lab3_2.o
-                  0x000296                  main
- .text            0x0004ee        0x220 keypad_2_debug.o
-                  0x0004ee                  KeypadInitialize
-                  0x000516                  KeypadScan
-                  0x000572                  ScanRows
-                  0x0006d8                  SetColActive
- .text            0x00070e        0x176 lcd_1.o
-                  0x00070e                  DelayUs
-                  0x00073c                  EnableLCD
-                  0x000764                  WriteLCD
-                  0x0007a2                  LCDInitialize
-                  0x00081c                  LCDClear
-                  0x000830                  LCDMoveCursor
-                  0x00085a                  LCDPrintChar
-                  0x00086a                  LCDPrintString
+.dconst             0x08a8         0x2a
+ .dconst            0x08a8         0x2a c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_cdnopuxX.XXo)
 
-.dinit            0x000884         0x20
- .dinit           0x000884         0x20 data_init
+.data               0x08d2         0x26
+ .data              0x08d2         0x26 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(_iob.XXo)
+                    0x08d2                  _Files
+                    0x08d4                  _iob
+
+.bss                0x08f8          0x6
+ .bss               0x08f8          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(_iob.XXo)
+                    0x08f8                  _sobuf
+                    0x08fa                  _sibuf
+                    0x08fc                  _outdone
+
+.data               0x08fe          0x2
+ .data              0x08fe          0x2 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(c30_uart.o)
+                    0x08fe                  __C30_UART
+
+.const              0x8bc4          0x4 load address 0x000bc4  
+ .const             0x8bc4          0x4 Lab3_2.o
+
+.text             0x000bc8        0x614
+ .text            0x000bc8        0x27e Lab3_2.o
+                  0x000bc8                  main
+ .text            0x000e46        0x220 keypad_2_debug.o
+                  0x000e46                  KeypadInitialize
+                  0x000e6e                  KeypadScan
+                  0x000eca                  ScanRows
+                  0x001030                  SetColActive
+ .text            0x001066        0x176 lcd_1.o
+                  0x001066                  DelayUs
+                  0x001094                  EnableLCD
+                  0x0010bc                  WriteLCD
+                  0x0010fa                  LCDInitialize
+                  0x001174                  LCDClear
+                  0x001188                  LCDMoveCursor
+                  0x0011b2                  LCDPrintChar
+                  0x0011c2                  LCDPrintString
+
+.dinit            0x0011dc         0xe2
+ .dinit           0x0011dc         0xe2 data_init

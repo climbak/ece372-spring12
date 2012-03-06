@@ -40,6 +40,7 @@ int main(void)
 	char key;
 	char firstDigit1, firstDigit2, secondDigit1, secondDigit2;
 	char operator;
+	char resultStr[8];
 	int number1 = 0, number2 = 0;
 	int result = 0;
 	int entry = 0;
@@ -122,30 +123,61 @@ int main(void)
 								entry++;
 							}
 							break;
-					case 5: number1 = 10 * (firstDigit1-'0') + (secondDigit1-'0');
+				/*	case 5: number1 = 10 * (firstDigit1-'0') + (secondDigit1-'0');
 							number2 = 10 * (firstDigit2-'0') + (secondDigit2-'0');
 							switch(operator){
 								case '*': result = number1 * number2;
 										  LCDMoveCursor(1,0);
-										  LCDPrintString(result+"");
+										  sprintf(resultStr, "%d", result);
+										  LCDPrintString(resultStr);
 										  break;
 								case '/': result = number1 / number2;
 										  LCDMoveCursor(1,0);
-										  LCDPrintString(result+"");
+										  sprintf(resultStr, "%d", result);
+										  LCDPrintString(resultStr);
 										  break;
 								case '+': result = number1 + number2;
 										  LCDMoveCursor(1,0);
-										  LCDPrintString(result+"");
+										  sprintf(resultStr, "%d", result);
+										  LCDPrintString(resultStr);
 										  break;
 								case '-': result = number1 - number2;
 										  LCDMoveCursor(1,0);
-										  LCDPrintString(result+"");
+										  sprintf(resultStr, "%d", result);
+										  LCDPrintString(resultStr);
 										  break;
-							}
+							} */
 				}
 				pressed = 1;
 			}
 			else pressed = 0;
+
+			if(entry == 5){
+				number1 = 10 * (firstDigit1-'0') + (secondDigit1-'0');
+							number2 = 10 * (firstDigit2-'0') + (secondDigit2-'0');
+							switch(operator){
+								case '*': result = number1 * number2;
+										  LCDMoveCursor(1,0);
+										  sprintf(resultStr, "%d", result);
+										  LCDPrintString(resultStr);
+										  break;
+								case '/': result = number1 / number2;
+										  LCDMoveCursor(1,0);
+										  sprintf(resultStr, "%d", result);
+										  LCDPrintString(resultStr);
+										  break;
+								case '+': result = number1 + number2;
+										  LCDMoveCursor(1,0);
+										  sprintf(resultStr, "%d", result);
+										  LCDPrintString(resultStr);
+										  break;
+								case '-': result = number1 - number2;
+										  LCDMoveCursor(1,0);
+										  sprintf(resultStr, "%d", result);
+										  LCDPrintString(resultStr);
+										  break;
+							}
+			}
 			IFS1bits.CNIF = 0;   //scanKeypad = '0';
 		}
 	}
