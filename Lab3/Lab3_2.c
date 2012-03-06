@@ -123,30 +123,6 @@ int main(void)
 								entry++;
 							}
 							break;
-				/*	case 5: number1 = 10 * (firstDigit1-'0') + (secondDigit1-'0');
-							number2 = 10 * (firstDigit2-'0') + (secondDigit2-'0');
-							switch(operator){
-								case '*': result = number1 * number2;
-										  LCDMoveCursor(1,0);
-										  sprintf(resultStr, "%d", result);
-										  LCDPrintString(resultStr);
-										  break;
-								case '/': result = number1 / number2;
-										  LCDMoveCursor(1,0);
-										  sprintf(resultStr, "%d", result);
-										  LCDPrintString(resultStr);
-										  break;
-								case '+': result = number1 + number2;
-										  LCDMoveCursor(1,0);
-										  sprintf(resultStr, "%d", result);
-										  LCDPrintString(resultStr);
-										  break;
-								case '-': result = number1 - number2;
-										  LCDMoveCursor(1,0);
-										  sprintf(resultStr, "%d", result);
-										  LCDPrintString(resultStr);
-										  break;
-							} */
 				}
 				pressed = 1;
 			}
