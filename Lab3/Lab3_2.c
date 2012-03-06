@@ -38,6 +38,12 @@ volatile char scanKeypad = '0';
 int main(void)
 {
 	char key;
+	char firstDigit1, firstDigit2, secondDigit1, secondDigit2;
+	char operator;
+	int number1 = 0, number2 = 0;
+	int result = 0;
+	int entry = 0;
+	int pressed = 0;
 
 	// TODO: Initialize and configure IOs, LCD (using your code from Lab 2),
 	// UART (if desired for debugging), and any other configuration that are needed.
@@ -49,7 +55,7 @@ int main(void)
 	// TODO: Initialize scanKeypad variable.
 
 	// test print
-	LCDPrintChar('0');
+	//LCDPrintChar('0');
 
 	//IFS1bits.CNIF = 1;
 
@@ -74,11 +80,72 @@ int main(void)
 		// should be displayed on second line of the LCD display.
 
 		if( IFS1bits.CNIF == 1 ){   //scanKeypad == '1' ) {
-			key = KeypadScan();
-			if( key != -1 ) {
-				LCDMoveCursor(0,0);
-				LCDPrintChar(key);
+			if(!pressed){
+				switch(entry){
+					case 0: firstDigit1 = KeypadScan();  //key = KeypadScan();
+							if( firstDigit1 != -1 && firstDigit1 != '*' && firstDigit1 != '/' 
+								&& firstDigit1 != '+' && firstDigit1 != '-' ) {
+								LCDMoveCursor(0,0);
+								LCDPrintChar(firstDigit1);
+								entry++;
+							}
+							break;
+					case 1: secondDigit1 = KeypadScan();
+							if( secondDigit1 != -1 && secondDigit1 != '*' && secondDigit1 != '/' 
+								&& secondDigit1 != '+' && secondDigit1 != '-' ) {
+								LCDMoveCursor(0,1);
+								LCDPrintChar(secondDigit1);
+								entry++;
+							}
+							break;
+					case 2: operator = KeypadScan();
+							if( operator != -1 && (operator == '*' || operator == '/' 
+								|| operator == '+' || operator == '-') ) {
+								LCDMoveCursor(0,2);
+								LCDPrintChar(operator);
+								entry++;
+							}
+							break;
+					case 3: firstDigit2 = KeypadScan();  //key = KeypadScan();
+							if( firstDigit2 != -1 && firstDigit2 != '*' && firstDigit2 != '/' 
+								&& firstDigit2 != '+' && firstDigit2 != '-' ) {
+								LCDMoveCursor(0,3);
+								LCDPrintChar(firstDigit2);
+								entry++;
+							}
+							break;
+					case 4: secondDigit2 = KeypadScan();
+							if( secondDigit2 != -1 && secondDigit2 != '*' && secondDigit2 != '/' 
+								&& secondDigit2 != '+' && secondDigit2 != '-' ) {
+								LCDMoveCursor(0,4);
+								LCDPrintChar(secondDigit2);
+								entry++;
+							}
+							break;
+					case 5: number1 = 10 * (firstDigit1-'0') + (secondDigit1-'0');
+							number2 = 10 * (firstDigit2-'0') + (secondDigit2-'0');
+							switch(operator){
+								case '*': result = number1 * number2;
+										  LCDMoveCursor(1,0);
+										  LCDPrintString(result+"");
+										  break;
+								case '/': result = number1 / number2;
+										  LCDMoveCursor(1,0);
+										  LCDPrintString(result+"");
+										  break;
+								case '+': result = number1 + number2;
+										  LCDMoveCursor(1,0);
+										  LCDPrintString(result+"");
+										  break;
+								case '-': result = number1 - number2;
+										  LCDMoveCursor(1,0);
+										  LCDPrintString(result+"");
+										  break;
+							}
+				}
+				pressed = 1;
 			}
+			else pressed = 0;
 			IFS1bits.CNIF = 0;   //scanKeypad = '0';
 		}
 	}
