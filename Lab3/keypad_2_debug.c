@@ -13,8 +13,8 @@
 #define KEYPAD_R3			TRISBbits.TRISB3
 #define KEYPAD_R4			TRISBbits.TRISB1
 
-//#define SW1                 TRISBbits.TRISB5
-#define KP_WATCH			TRISBbits.TRISB5
+#define SW1                 TRISBbits.TRISB5
+//#define KP_WATCH			TRISBbits.TRISB5
 
 //Define keypad presses
 #define KEY1
@@ -26,6 +26,7 @@ void KeypadInitialize();
 
 volatile int keyPressed = 0;
 char lastKey;
+char returnChar;
 
 void KeypadInitialize() {
 
@@ -42,9 +43,9 @@ void KeypadInitialize() {
 	KEYPAD_R3 = 1;
 	KEYPAD_R4 = 1;
 
-	KP_WATCH = 0;
+//	KP_WATCH = 0;
 
-	_LATB5 = keyPressed % 2;
+//	_LATB5 = keyPressed % 2;
 
 	
 
@@ -63,7 +64,7 @@ void KeypadInitialize() {
     //IPC4bits.CNIP = 1;
 
 	//Configure SW1 as an input
-	//SW1 = 1;
+	SW1 = 1;
 
 
 }
@@ -90,6 +91,7 @@ char KeypadScan() {
     //used to verify that only one key is pressed
     keyPressed = 0;
     int i = 0;
+	returnChar = 0;
     for(i = 0; i < 3; i++) {
         SetColActive(i); //set only one column to HI at once
         key = ScanRows(i, lastKey); //read each row when a specific col is set HI
@@ -105,11 +107,11 @@ char KeypadScan() {
 char ScanRows(int colActive, char lastChar) {
 
     //the character to return
-    char returnChar = 0;
+    //char returnChar = 'F';
 
-    //if statments depending on which col is set HI
+    //if statements depending on which col is set HI
     if(colActive == 0) {
-        //if statments based on which row is HI
+        //if statements based on which row is HI
         //need to use if, not if/else if b/c multiple key presses could be possible on different rows
         if(PORTAbits.RA1 == 0) {
             keyPressed++;
@@ -125,14 +127,14 @@ char ScanRows(int colActive, char lastChar) {
         }
         
         //using SW1 to implement two functions on one button
-/*        if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 1){ //SW1 not pressed then multiply
+        if(PORTBbits.RB1 == 0  && PORTBbits.RB5 == 1){ //SW1 not pressed then multiply
             keyPressed++;
             returnChar = '*';
         }
-        else if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 0){ //SW pressed then devided
+        else if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 0){ //SW1 pressed then devided
             keyPressed++;
             returnChar = '/';
-        } */
+        } 
     }
 
     else if(colActive == 1) {
@@ -148,10 +150,10 @@ char ScanRows(int colActive, char lastChar) {
             keyPressed++;
             returnChar = '8';
         }
-/*        if(PORTBbits.RB1 == 0){
+        if(PORTBbits.RB1 == 0){
             keyPressed++;
             returnChar = '0';
-        } */
+        } 
     }
 
     else if(colActive == 2) {
@@ -167,14 +169,14 @@ char ScanRows(int colActive, char lastChar) {
             keyPressed++;
             returnChar = '9';
         }
-  /*      if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 1){ //SW1 not pressed then add
+        if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 1){ //SW1 not pressed then add
             keyPressed++;
             returnChar = '+';
         }
         else if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 0){ //SW pressed then subtract
             keyPressed++;
             returnChar = '-';
-        }*/
+        }
     }
 
     else returnChar = 0;
@@ -188,23 +190,23 @@ char ScanRows(int colActive, char lastChar) {
 //setting just one col HI and the others LO
 void SetColActive(int col) {
     if(col == 0) {
-        //_LATB0 = 0;
+        _LATB0 = 0;
         _LATA0 = 1;
         _LATB2 = 1;
     }
     else if(col == 1) {
-        //_LATB0 = 1;
+        _LATB0 = 1;
         _LATA0 = 0;
         _LATB2 = 1;
     }
     else if(col == 2) {
-        //_LATB0 = 1;
+        _LATB0 = 1;
         _LATA0 = 1;
         _LATB2 = 0;
     }
-    //default set all off
+    //default set all on
     else {
-        //_LATB0 = 1;
+        _LATB0 = 0;
         _LATA0 = 0;
         _LATB2 = 0;
     }

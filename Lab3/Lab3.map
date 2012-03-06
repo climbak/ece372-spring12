@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_30 (B) 7
+Microchip Technology Inc, vv3_30 (B) 
 
 Tool Name:
   c:\program files (x86)\microchip\mplab c30\bin\bin\..\bin/pic30-coff-ld.exe
@@ -25,7 +25,6 @@ Command:
   lcd_1.o \
   -Tp24FJ64GA002.gld.00 \
   --defsym=__MPLAB_BUILD=1 \
-  --defsym=__MPLAB_DEBUG=1 \
   -Map=Lab3.map \
   --report-mem \
   -start-group \
@@ -47,10 +46,10 @@ Program Memory  [Origin = 0x200, Length = 0xa9fa]
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200                0x94            0xde  (222)
-.text                        0x294               0x35a           0x507  (1287)
-.dinit                       0x5ee                0x20            0x30  (48)
+.text                        0x294               0x3c4           0x5a6  (1446)
+.dinit                       0x658                0x20            0x30  (48)
 
-                     Total program memory used (bytes):          0x615  (1557) 2%
+                     Total program memory used (bytes):          0x6b4  (1716) 2%
 
 
 Data Memory  [Origin = 0x800, Length = 0x2000]
@@ -78,6 +77,7 @@ External Symbols in Data Memory (by address):
 
                     0x0800                  _keyPressed
                     0x0802                  _lastKey
+                    0x0803                  _returnChar
                     0x0804                  _scanKeypad
                     0x0806                  _cnt_LCD
 
@@ -86,6 +86,7 @@ External Symbols in Data Memory (by name):
                     0x0806                  _cnt_LCD
                     0x0800                  _keyPressed
                     0x0802                  _lastKey
+                    0x0803                  _returnChar
                     0x0804                  _scanKeypad
 
 External Symbols in Program Memory (by address):
@@ -96,39 +97,39 @@ External Symbols in Program Memory (by address):
                   0x000232                  __data_init
                   0x000290                  __DefaultInterrupt
                   0x000294                  _KeypadInitialize
-                  0x0002d8                  _KeypadScan
-                  0x000330                  _ScanRows
-                  0x00041c                  _SetColActive
-                  0x00044a                  _DelayUs
-                  0x000478                  _EnableLCD
-                  0x0004a0                  _WriteLCD
-                  0x0004de                  _LCDInitialize
-                  0x000558                  _LCDClear
-                  0x00056c                  _LCDMoveCursor
-                  0x000596                  _LCDPrintChar
-                  0x0005a6                  _LCDPrintString
-                  0x0005c0                  _main
+                  0x0002bc                  _KeypadScan
+                  0x000318                  _ScanRows
+                  0x00047e                  _SetColActive
+                  0x0004b4                  _DelayUs
+                  0x0004e2                  _EnableLCD
+                  0x00050a                  _WriteLCD
+                  0x000548                  _LCDInitialize
+                  0x0005c2                  _LCDClear
+                  0x0005d6                  _LCDMoveCursor
+                  0x000600                  _LCDPrintChar
+                  0x000610                  _LCDPrintString
+                  0x00062a                  _main
 
 External Symbols in Program Memory (by name):
 
-                  0x00044a                  _DelayUs
-                  0x000478                  _EnableLCD
+                  0x0004b4                  _DelayUs
+                  0x0004e2                  _EnableLCD
                   0x000294                  _KeypadInitialize
-                  0x0002d8                  _KeypadScan
-                  0x000558                  _LCDClear
-                  0x0004de                  _LCDInitialize
-                  0x00056c                  _LCDMoveCursor
-                  0x000596                  _LCDPrintChar
-                  0x0005a6                  _LCDPrintString
-                  0x000330                  _ScanRows
-                  0x00041c                  _SetColActive
-                  0x0004a0                  _WriteLCD
+                  0x0002bc                  _KeypadScan
+                  0x0005c2                  _LCDClear
+                  0x000548                  _LCDInitialize
+                  0x0005d6                  _LCDMoveCursor
+                  0x000600                  _LCDPrintChar
+                  0x000610                  _LCDPrintString
+                  0x000318                  _ScanRows
+                  0x00047e                  _SetColActive
+                  0x00050a                  _WriteLCD
                   0x000290                  __DefaultInterrupt
                   0x000232                  __data_init
                   0x000232                  __data_init_standard
                   0x000222                  __psv_init
                   0x000200                  __resetPRI
-                  0x0005c0                  _main
+                  0x00062a                  _main
 
 Memory Configuration
 
@@ -1060,7 +1061,6 @@ __CONFIG1         0x00abfe          0x2
                     0x0230                  UART2 = 0x230
                     0x0230                  _UART2 = 0x230
                     0x0001                  __MPLAB_BUILD = 0x1
-                    0x0001                  __MPLAB_DEBUG = 0x1
 START GROUP
 LOAD c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a
 LOAD c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a
@@ -1090,6 +1090,7 @@ __c30_signature
 .nbss               0x0802          0x2
  .nbss              0x0802          0x2 keypad_2_debug.o
                     0x0802                  lastKey
+                    0x0803                  returnChar
 
 .ndata              0x0804          0x4
  .ndata             0x0804          0x2 Lab3_2.o
@@ -1097,23 +1098,23 @@ __c30_signature
  .ndata             0x0806          0x2 lcd_1.o
                     0x0806                  cnt_LCD
 
-.text             0x000294        0x35a
- .text            0x000294        0x1b6 keypad_2_debug.o
+.text             0x000294        0x3c4
+ .text            0x000294        0x220 keypad_2_debug.o
                   0x000294                  KeypadInitialize
-                  0x0002d8                  KeypadScan
-                  0x000330                  ScanRows
-                  0x00041c                  SetColActive
- .text            0x00044a        0x176 lcd_1.o
-                  0x00044a                  DelayUs
-                  0x000478                  EnableLCD
-                  0x0004a0                  WriteLCD
-                  0x0004de                  LCDInitialize
-                  0x000558                  LCDClear
-                  0x00056c                  LCDMoveCursor
-                  0x000596                  LCDPrintChar
-                  0x0005a6                  LCDPrintString
- .text            0x0005c0         0x2e Lab3_2.o
-                  0x0005c0                  main
+                  0x0002bc                  KeypadScan
+                  0x000318                  ScanRows
+                  0x00047e                  SetColActive
+ .text            0x0004b4        0x176 lcd_1.o
+                  0x0004b4                  DelayUs
+                  0x0004e2                  EnableLCD
+                  0x00050a                  WriteLCD
+                  0x000548                  LCDInitialize
+                  0x0005c2                  LCDClear
+                  0x0005d6                  LCDMoveCursor
+                  0x000600                  LCDPrintChar
+                  0x000610                  LCDPrintString
+ .text            0x00062a         0x2e Lab3_2.o
+                  0x00062a                  main
 
-.dinit            0x0005ee         0x20
- .dinit           0x0005ee         0x20 data_init
+.dinit            0x000658         0x20
+ .dinit           0x000658         0x20 data_init

@@ -97,7 +97,7 @@ int main(void)
 //
 // The functionality defined in an interrupt should be a minimal as possible
 // to ensure additional interrupts can be processed.
-/** void _ISR _CNInterrupt(void)
+/* void _ISR _CNInterrupt(void)
 {
 	// TODO: Clear interrupt flag
 	IFS1bits.CNIF = 0;
