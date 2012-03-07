@@ -41,10 +41,14 @@ int main(void)
 	char firstDigit1, firstDigit2, secondDigit1, secondDigit2;
 	char operator;
 	char resultStr[8];
+	char decResultStr[5];
 	int number1 = 0, number2 = 0;
-	int result = 0;
+	int wholeResult = 0, decResult = 0, result = 0;
 	int entry = 0;
 	int pressed = 0;
+	int i = 0;
+	int digitDivisor = 0;
+	int removed = 0;
 
 	// TODO: Initialize and configure IOs, LCD (using your code from Lab 2),
 	// UART (if desired for debugging), and any other configuration that are needed.
@@ -137,10 +141,32 @@ int main(void)
 										  sprintf(resultStr, "%d", result);
 										  LCDPrintString(resultStr);
 										  break;
-								case '/': result = number1 / number2;
+								case '/': wholeResult = number1 / number2;
+										  decResult = (100000*(number1 % number2)) /number2;
 										  LCDMoveCursor(1,0);
-										  sprintf(resultStr, "%d", result);
-										  LCDPrintString(resultStr);
+										  LCDPrintChar(wholeResult+'0');
+										  if(decResult != 0){
+											  LCDMoveCursor(1,1);
+											  LCDPrintChar('.');
+											  digitDivisor = 100000;
+										      for(i=0; i<5; i++({
+									              decResultStr[i] = (decResult/digitDivisor)+'0';
+												  decResult = decResult - (decResult/digitDivisor);
+												  digitDivisor = digitDivisor / 10;
+											  }
+											  i = 4;
+											  removed = 1;
+											  while(i >= 0 && removed = 1){
+												  if(decResultStr[i] == '0'){
+													  decResultStr[i] == '';
+													  removed = 1;
+												  }
+												  else removed = 0;
+											  }
+											  LCDMoveCursor(1,2);
+											  LCDPrintString(decResultStr);
+										  }
+										  //LCDPrintString(decResultStr);
 										  break;
 								case '+': result = number1 + number2;
 										  LCDMoveCursor(1,0);
