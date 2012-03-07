@@ -41,14 +41,16 @@ int main(void)
 	char firstDigit1, firstDigit2, secondDigit1, secondDigit2;
 	char operator;
 	char resultStr[8];
-	char decResultStr[5];
+	char decResultStr[7];
 	int number1 = 0, number2 = 0;
 	int wholeResult = 0, decResult = 0, result = 0;
+	int remainder = 0;
 	int entry = 0;
 	int pressed = 0;
-	int i = 0;
-	int digitDivisor = 0;
-	int removed = 0;
+	int i = 0, count = 0;
+	int wholeNumAdded = 0;
+	//int digitDivisor = 0;
+	//int removed = 0;
 
 	// TODO: Initialize and configure IOs, LCD (using your code from Lab 2),
 	// UART (if desired for debugging), and any other configuration that are needed.
@@ -141,32 +143,67 @@ int main(void)
 										  sprintf(resultStr, "%d", result);
 										  LCDPrintString(resultStr);
 										  break;
-								case '/': wholeResult = number1 / number2;
-										  decResult = (100000*(number1 % number2)) /number2;
+								case '/': result = number1 / number2;
+										  remainder = number1 % number2;//(10000*(number1 % number2)) /number2;
 										  LCDMoveCursor(1,0);
-										  LCDPrintChar(wholeResult+'0');
-										  if(decResult != 0){
-											  LCDMoveCursor(1,1);
-											  LCDPrintChar('.');
-											  digitDivisor = 100000;
-										      for(i=0; i<5; i++({
-									              decResultStr[i] = (decResult/digitDivisor)+'0';
-												  decResult = decResult - (decResult/digitDivisor);
-												  digitDivisor = digitDivisor / 10;
+										  //resultStr = "       ";
+										 // if(remainder != 0){
+										  wholeNumAdded = 0;
+										  count = 0;
+										  if(remainder > 0){
+											  for(i=0; i<8; i++){
+												  if(result >= 10 && !wholeNumAdded){
+													  resultStr[0] = (result/10) + '0';
+													  //if(result - 10 >= 40) resultStr[1] = (result-40) + '0';
+													  //else if(result - 10 >= 30) resultStr[1] = (result - 30) + '0';
+													  //else if(result - 10 >= 20) resultStr[1] = (result - 20) + '0';
+													  //else if(result - 10 >= 10) resultStr[1] = (result - 10) + '0';
+													  resultStr[1] = (result - (result/10)*10) + '0';
+													  resultStr[2] = '.';
+													  wholeNumAdded = 1;
+													  i = i + 3;
+												  }
+												  else if(result < 10 && !wholeNumAdded){
+													  resultStr[0] = result + '0';
+													  resultStr[1] = '.';
+													  wholeNumAdded = 1;
+														  i = i + 2;
+												  }
+												  if(remainder != 0 && count < 4){
+												  	  resultStr[i] = ((remainder * 10) / number2) + '0';
+												  	  remainder = (remainder * 10) % number2;
+													  count++;
+												  }
+												  else resultStr[i] = ' ';
 											  }
-											  i = 4;
+											  resultStr[8] = ' ';
+											  LCDPrintString(resultStr);
+										  }
+										  	 // LCDPrintChar(wholeResult+'0');
+											 // LCDMoveCursor(1,1);
+											 // LCDPrintChar('.');
+											 // digitDivisor = 1000;
+										     // for(i=0; i<4; i++){
+									         //     decResultStr[i] = (decResult/digitDivisor)+'0';
+											//	  decResult = decResult - (decResult/digitDivisor)*digitDivisor;
+											//	  digitDivisor = digitDivisor / 10;
+											 // }
+											  /*i = 3;
 											  removed = 1;
-											  while(i >= 0 && removed = 1){
+											  while(i >= 0 && removed == 1){
 												  if(decResultStr[i] == '0'){
-													  decResultStr[i] == '';
+													  decResultStr[i] = ' ';
 													  removed = 1;
 												  }
 												  else removed = 0;
+												  i--;
 											  }
-											  LCDMoveCursor(1,2);
-											  LCDPrintString(decResultStr);
+											  LCDMoveCursor(1,2); */
+										  //}
+										  else{
+											  sprintf(resultStr, "%d", wholeResult);
+										  	  LCDPrintString(resultStr);
 										  }
-										  //LCDPrintString(decResultStr);
 										  break;
 								case '+': result = number1 + number2;
 										  LCDMoveCursor(1,0);

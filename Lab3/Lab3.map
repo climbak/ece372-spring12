@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_30 (B) [
+Microchip Technology Inc, vv3_30 (B) Œ
 
 Tool Name:
   c:\program files (x86)\microchip\mplab c30\bin\bin\..\bin/pic30-coff-ld.exe
@@ -63,10 +63,10 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x9c4           0xea6  (3750)
 .const                       0xbc4                 0x4             0x6  (6)
-.text                        0xbc8               0x614           0x91e  (2334)
-.dinit                      0x11dc                0xe2           0x153  (339)
+.text                        0xbc8               0x70e           0xa95  (2709)
+.dinit                      0x12d6                0xe2           0x153  (339)
 
-                     Total program memory used (bytes):         0x191d  (6429) 9%
+                     Total program memory used (bytes):         0x1a94  (6804) 10%
 
 
 Data Memory  [Origin = 0x800, Length = 0x2000]
@@ -138,33 +138,33 @@ External Symbols in Program Memory (by address):
                   0x000518                  __sprintf_cdnopuxX
                   0x000546                  __vfprintf_cdnopuxX
                   0x000bc8                  _main
-                  0x000e46                  _KeypadInitialize
-                  0x000e6e                  _KeypadScan
-                  0x000eca                  _ScanRows
-                  0x001030                  _SetColActive
-                  0x001066                  _DelayUs
-                  0x001094                  _EnableLCD
-                  0x0010bc                  _WriteLCD
-                  0x0010fa                  _LCDInitialize
-                  0x001174                  _LCDClear
-                  0x001188                  _LCDMoveCursor
-                  0x0011b2                  _LCDPrintChar
-                  0x0011c2                  _LCDPrintString
+                  0x000f40                  _KeypadInitialize
+                  0x000f68                  _KeypadScan
+                  0x000fc4                  _ScanRows
+                  0x00112a                  _SetColActive
+                  0x001160                  _DelayUs
+                  0x00118e                  _EnableLCD
+                  0x0011b6                  _WriteLCD
+                  0x0011f4                  _LCDInitialize
+                  0x00126e                  _LCDClear
+                  0x001282                  _LCDMoveCursor
+                  0x0012ac                  _LCDPrintChar
+                  0x0012bc                  _LCDPrintString
 
 External Symbols in Program Memory (by name):
 
-                  0x001066                  _DelayUs
-                  0x001094                  _EnableLCD
-                  0x000e46                  _KeypadInitialize
-                  0x000e6e                  _KeypadScan
-                  0x001174                  _LCDClear
-                  0x0010fa                  _LCDInitialize
-                  0x001188                  _LCDMoveCursor
-                  0x0011b2                  _LCDPrintChar
-                  0x0011c2                  _LCDPrintString
-                  0x000eca                  _ScanRows
-                  0x001030                  _SetColActive
-                  0x0010bc                  _WriteLCD
+                  0x001160                  _DelayUs
+                  0x00118e                  _EnableLCD
+                  0x000f40                  _KeypadInitialize
+                  0x000f68                  _KeypadScan
+                  0x00126e                  _LCDClear
+                  0x0011f4                  _LCDInitialize
+                  0x001282                  _LCDMoveCursor
+                  0x0012ac                  _LCDPrintChar
+                  0x0012bc                  _LCDPrintString
+                  0x000fc4                  _ScanRows
+                  0x00112a                  _SetColActive
+                  0x0011b6                  _WriteLCD
                   0x000290                  __DefaultInterrupt
                   0x00040c                  ___divdi3
                   0x000446                  ___moddi3
@@ -1204,23 +1204,23 @@ __c30_signature
 .const              0x8bc4          0x4 load address 0x000bc4  
  .const             0x8bc4          0x4 Lab3_2.o
 
-.text             0x000bc8        0x614
- .text            0x000bc8        0x27e Lab3_2.o
+.text             0x000bc8        0x70e
+ .text            0x000bc8        0x378 Lab3_2.o
                   0x000bc8                  main
- .text            0x000e46        0x220 keypad_2_debug.o
-                  0x000e46                  KeypadInitialize
-                  0x000e6e                  KeypadScan
-                  0x000eca                  ScanRows
-                  0x001030                  SetColActive
- .text            0x001066        0x176 lcd_1.o
-                  0x001066                  DelayUs
-                  0x001094                  EnableLCD
-                  0x0010bc                  WriteLCD
-                  0x0010fa                  LCDInitialize
-                  0x001174                  LCDClear
-                  0x001188                  LCDMoveCursor
-                  0x0011b2                  LCDPrintChar
-                  0x0011c2                  LCDPrintString
+ .text            0x000f40        0x220 keypad_2_debug.o
+                  0x000f40                  KeypadInitialize
+                  0x000f68                  KeypadScan
+                  0x000fc4                  ScanRows
+                  0x00112a                  SetColActive
+ .text            0x001160        0x176 lcd_1.o
+                  0x001160                  DelayUs
+                  0x00118e                  EnableLCD
+                  0x0011b6                  WriteLCD
+                  0x0011f4                  LCDInitialize
+                  0x00126e                  LCDClear
+                  0x001282                  LCDMoveCursor
+                  0x0012ac                  LCDPrintChar
+                  0x0012bc                  LCDPrintString
 
-.dinit            0x0011dc         0xe2
- .dinit           0x0011dc         0xe2 data_init
+.dinit            0x0012d6         0xe2
+ .dinit           0x0012d6         0xe2 data_init
