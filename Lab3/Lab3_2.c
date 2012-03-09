@@ -143,67 +143,72 @@ int main(void)
 										  sprintf(resultStr, "%d", result);
 										  LCDPrintString(resultStr);
 										  break;
-								case '/': result = number1 / number2;
-										  remainder = number1 % number2;//(10000*(number1 % number2)) /number2;
-										  LCDMoveCursor(1,0);
-										  //resultStr = "       ";
-										 // if(remainder != 0){
-										  wholeNumAdded = 0;
-										  count = 0;
-										  if(remainder > 0){
-											  for(i=0; i<8; i++){
-												  if(result >= 10 && !wholeNumAdded){
-													  resultStr[0] = (result/10) + '0';
-													  //if(result - 10 >= 40) resultStr[1] = (result-40) + '0';
-													  //else if(result - 10 >= 30) resultStr[1] = (result - 30) + '0';
-													  //else if(result - 10 >= 20) resultStr[1] = (result - 20) + '0';
-													  //else if(result - 10 >= 10) resultStr[1] = (result - 10) + '0';
-													  resultStr[1] = (result - (result/10)*10) + '0';
-													  resultStr[2] = '.';
-													  wholeNumAdded = 1;
-													  i = i + 3;
-												  }
-												  else if(result < 10 && !wholeNumAdded){
-													  resultStr[0] = result + '0';
-													  resultStr[1] = '.';
-													  wholeNumAdded = 1;
-														  i = i + 2;
-												  }
-												  if(remainder != 0 && count < 4){
-												  	  resultStr[i] = ((remainder * 10) / number2) + '0';
-												  	  remainder = (remainder * 10) % number2;
-													  count++;
-												  }
-												  else resultStr[i] = ' ';
-											  }
-											  resultStr[8] = ' ';
-											  LCDPrintString(resultStr);
-										  }
-										  	 // LCDPrintChar(wholeResult+'0');
-											 // LCDMoveCursor(1,1);
-											 // LCDPrintChar('.');
-											 // digitDivisor = 1000;
-										     // for(i=0; i<4; i++){
-									         //     decResultStr[i] = (decResult/digitDivisor)+'0';
-											//	  decResult = decResult - (decResult/digitDivisor)*digitDivisor;
-											//	  digitDivisor = digitDivisor / 10;
-											 // }
-											  /*i = 3;
-											  removed = 1;
-											  while(i >= 0 && removed == 1){
-												  if(decResultStr[i] == '0'){
-													  decResultStr[i] = ' ';
-													  removed = 1;
-												  }
-												  else removed = 0;
-												  i--;
-											  }
-											  LCDMoveCursor(1,2); */
-										  //}
+								case '/': if (number2 == 0){
+											  LCDMoveCursor(1,0);
+											  LCDPrintString("Div by 0");
 										  else{
-											  sprintf(resultStr, "%d", wholeResult);
-										  	  LCDPrintString(resultStr);
-										  }
+											  result = number1 / number2;
+											  remainder = number1 % number2;//(10000*(number1 % number2)) /number2;
+											  LCDMoveCursor(1,0);
+											  //resultStr = "       ";
+											 // if(remainder != 0){
+											  wholeNumAdded = 0;
+											  count = 0;
+											  if(remainder > 0){
+												  for(i=0; i<8; i++){
+													  if(result >= 10 && !wholeNumAdded){
+														  resultStr[0] = (result/10) + '0';
+														  //if(result - 10 >= 40) resultStr[1] = (result-40) + '0';
+														  //else if(result - 10 >= 30) resultStr[1] = (result - 30) + '0';
+														  //else if(result - 10 >= 20) resultStr[1] = (result - 20) + '0';
+														  //else if(result - 10 >= 10) resultStr[1] = (result - 10) + '0';
+														  resultStr[1] = (result - (result/10)*10) + '0';
+														  resultStr[2] = '.';
+														  wholeNumAdded = 1;
+														  i = i + 3;
+													  }
+													  else if(result < 10 && !wholeNumAdded){
+														  resultStr[0] = result + '0';
+														  resultStr[1] = '.';
+														  wholeNumAdded = 1;
+															  i = i + 2;
+													  }
+													  if(remainder != 0 && count < 4){
+													  	  resultStr[i] = ((remainder * 10) / number2) + '0';
+													  	  remainder = (remainder * 10) % number2;
+														  count++;
+													  }
+													  else resultStr[i] = ' ';
+												  }
+												  resultStr[8] = ' ';
+												  LCDPrintString(resultStr);
+											  }
+											  	 // LCDPrintChar(wholeResult+'0');
+												 // LCDMoveCursor(1,1);
+												 // LCDPrintChar('.');
+												 // digitDivisor = 1000;
+											     // for(i=0; i<4; i++){
+										         //     decResultStr[i] = (decResult/digitDivisor)+'0';
+												//	  decResult = decResult - (decResult/digitDivisor)*digitDivisor;
+												//	  digitDivisor = digitDivisor / 10;
+												 // }
+												  /*i = 3;
+												  removed = 1;
+												  while(i >= 0 && removed == 1){
+													  if(decResultStr[i] == '0'){
+														  decResultStr[i] = ' ';
+														  removed = 1;
+													  }
+													  else removed = 0;
+													  i--;
+												  }
+												  LCDMoveCursor(1,2); */
+											  //}
+											  else{
+												  sprintf(resultStr, "%d", wholeResult);
+											  	  LCDPrintString(resultStr);
+											  }
+										  }	
 										  break;
 								case '+': result = number1 + number2;
 										  LCDMoveCursor(1,0);
