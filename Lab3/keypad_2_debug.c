@@ -8,10 +8,10 @@
 #define KEYPAD_C1			TRISBbits.TRISB0
 #define KEYPAD_C2			TRISAbits.TRISA0
 #define KEYPAD_C3			TRISBbits.TRISB2
-#define KEYPAD_R1			TRISAbits.TRISA1
+#define KEYPAD_R1			TRISBbits.TRISB1
 #define KEYPAD_R2			TRISBbits.TRISB10
 #define KEYPAD_R3			TRISBbits.TRISB3
-#define KEYPAD_R4			TRISBbits.TRISB1
+#define KEYPAD_R4			TRISAbits.TRISA1
 
 #define SW1                 TRISBbits.TRISB5
 //#define KP_WATCH			TRISBbits.TRISB5
@@ -113,7 +113,7 @@ char ScanRows(int colActive, char lastChar) {
     if(colActive == 0) {
         //if statements based on which row is HI
         //need to use if, not if/else if b/c multiple key presses could be possible on different rows
-        if(PORTAbits.RA1 == 0) {
+        if(PORTBbits.RB1 == 0) {
             keyPressed++;
             returnChar = '1';
         }
@@ -127,18 +127,18 @@ char ScanRows(int colActive, char lastChar) {
         }
         
         //using SW1 to implement two functions on one button
-        if(PORTBbits.RB1 == 0  && PORTBbits.RB5 == 1){ //SW1 not pressed then multiply
+        if(PORTAbits.RA1 == 0  && PORTBbits.RB5 == 1){ //SW1 not pressed then multiply
             keyPressed++;
             returnChar = '*';
         }
-        else if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 0){ //SW1 pressed then devided
+        else if(PORTAbits.RA1 == 0 && PORTBbits.RB5 == 0){ //SW1 pressed then devided
             keyPressed++;
             returnChar = '/';
         } 
     }
 
     else if(colActive == 1) {
-        if(PORTAbits.RA1 == 0) {
+        if(PORTBbits.RB1 == 0) {
             keyPressed++;
             returnChar = '2';
         }
@@ -150,14 +150,14 @@ char ScanRows(int colActive, char lastChar) {
             keyPressed++;
             returnChar = '8';
         }
-        if(PORTBbits.RB1 == 0){
+        if(PORTAbits.RA1 == 0){
             keyPressed++;
             returnChar = '0';
         } 
     }
 
     else if(colActive == 2) {
-        if(PORTAbits.RA1 == 0) {
+        if(PORTBbits.RB1 == 0) {
             keyPressed++;
             returnChar = '3';
         }
@@ -169,11 +169,11 @@ char ScanRows(int colActive, char lastChar) {
             keyPressed++;
             returnChar = '9';
         }
-        if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 1){ //SW1 not pressed then add
+        if(PORTAbits.RA1 == 0 && PORTBbits.RB5 == 1){ //SW1 not pressed then add
             keyPressed++;
             returnChar = '+';
         }
-        else if(PORTBbits.RB1 == 0 && PORTBbits.RB5 == 0){ //SW pressed then subtract
+        else if(PORTAbits.RA1 == 0 && PORTBbits.RB5 == 0){ //SW pressed then subtract
             keyPressed++;
             returnChar = '-';
         }

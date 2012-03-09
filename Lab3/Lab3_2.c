@@ -31,7 +31,7 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 // Varible used to indicate that the current configuration of the keypad has been changed,
 // and the KeypadScan() function needs to be called.
 
-volatile char scanKeypad = '0';
+volatile int scanKeypad = 0;
 
 // ******************************************************************************************* //
 
@@ -86,7 +86,7 @@ int main(void)
 		// As soon as the user correctly enters the second number, the result of the calculation
 		// should be displayed on second line of the LCD display.
 
-		if( IFS1bits.CNIF == 1 ){   //scanKeypad == '1' ) {
+		if( IFS1bits.CNIF == 1 ){   //scanKeypad == 1 ) {
 			if(!pressed){
 				switch(entry){
 					case 0: firstDigit1 = KeypadScan();  //key = KeypadScan();
@@ -146,6 +146,7 @@ int main(void)
 								case '/': if (number2 == 0){
 											  LCDMoveCursor(1,0);
 											  LCDPrintString("Div by 0");
+										  }		  
 										  else{
 											  result = number1 / number2;
 											  remainder = number1 % number2;//(10000*(number1 % number2)) /number2;
@@ -222,7 +223,7 @@ int main(void)
 										  break;
 							}
 			}
-			IFS1bits.CNIF = 0;   //scanKeypad = '0';
+			IFS1bits.CNIF = 0;   //scanKeypad = 0;
 		}
 	}
 	return 0;
@@ -246,7 +247,7 @@ int main(void)
 	IFS1bits.CNIF = 0;
 
 	//Once a change is detected scanKeypad will go to 1 so that KeypadScan() will run
-	scanKeypad = '1';
+	scanKeypad = 1;
 
 	// TODO: Detect if *any* key of the keypad is *pressed*, and update scanKeypad
 	// variable to indicate keypad scanning process must be executed.
