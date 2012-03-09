@@ -37,13 +37,13 @@ volatile int scanKeypad = 0;
 
 int main(void)
 {
-	char key;
+	//char key;
 	char firstDigit1, firstDigit2, secondDigit1, secondDigit2;
 	char operator;
 	char resultStr[8];
-	char decResultStr[7];
+	//char decResultStr[7];
 	int number1 = 0, number2 = 0;
-	int wholeResult = 0, decResult = 0, result = 0;
+	int wholeResult = 0, /*decResult = 0,*/ result = 0;
 	int remainder = 0;
 	int entry = 0;
 	int pressed = 0;
@@ -86,7 +86,7 @@ int main(void)
 		// As soon as the user correctly enters the second number, the result of the calculation
 		// should be displayed on second line of the LCD display.
 
-		if( IFS1bits.CNIF == 1 ){   //scanKeypad == 1 ) {
+		if( IFS1bits.CNIF == 1 ){//   scanKeypad == 1 ) {
 			if(!pressed){
 				switch(entry){
 					case 0: firstDigit1 = KeypadScan();  //key = KeypadScan();
