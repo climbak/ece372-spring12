@@ -1,25 +1,25 @@
-Microchip Technology Inc, vv3_30 (B) n
+Microchip Technology Inc, vv3_30 (B) 1
 
 Tool Name:
-  c:\program files (x86)\microchip\mplab c30\bin\bin\..\bin/pic30-coff-ld.exe
+  c:\program files\microchip\mplab c30\bin\bin\..\bin/pic30-coff-ld.exe
 
 Command:
   -p24FJ64GA002 \
   -olab2.cof \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/.. \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../lib \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/PIC24E \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../support/PIC24E/gld \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/PIC24F \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../support/PIC24F/gld \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/PIC24H \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../support/PIC24H/gld \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/dsPIC30F \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../support/dsPIC30F/gld \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/dsPIC33E \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../support/dsPIC33E/gld \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/dsPIC33F \
-  -Lc:/program files (x86)/microchip/mplab c30/bin/bin/../../support/dsPIC33F/gld \
+  -Lc:/program files/microchip/mplab c30/bin/bin/.. \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../lib \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../lib/PIC24E \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../support/PIC24E/gld \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../lib/PIC24F \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../support/PIC24F/gld \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../lib/PIC24H \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../support/PIC24H/gld \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../lib/dsPIC30F \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../support/dsPIC30F/gld \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../lib/dsPIC33E \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../support/dsPIC33E/gld \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../lib/dsPIC33F \
+  -Lc:/program files/microchip/mplab c30/bin/bin/../../support/dsPIC33F/gld \
   lab2p1_1.o \
   lab2p2_1.o \
   lcd.o \
@@ -36,23 +36,23 @@ Command:
 
 Archive member included because of file (symbol)
 
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o)
                               (_resetPRI)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(data_init_standard.o)
-                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o) (_data_init_standard)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(printf_s.XXo)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(data_init_standard.o)
+                              c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o) (_data_init_standard)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(printf_s.XXo)
                               (__printf_s)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(_iob.XXo)
-                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(printf_s.XXo) (_iob)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_s.XXo)
-                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(printf_s.XXo) (_vfprintf_s)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo)
-                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_s.XXo) (fputc)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(flsbuf.XXo)
-                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo) (_flsbuf)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(write.o)
-                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo) (write)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(c30_uart.o)
-                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(write.o) (__C30_UART)
-c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divmoddi3.o)
-                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_s.XXo) (__udivdi3)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(_iob.XXo)
+                              c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(printf_s.XXo) (_iob)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_s.XXo)
+                              c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(printf_s.XXo) (_vfprintf_s)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo)
+                              c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_s.XXo) (fputc)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(flsbuf.XXo)
+                              c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo) (_flsbuf)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(write.o)
+                              c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(fputc.XXo) (write)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(c30_uart.o)
+                              c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(write.o) (__C30_UART)
+c:/program files/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divmoddi3.o)
+                              c:/program files/microchip/mplab c30/bin/bin/../../lib\libc-coff.a(doprnt_s.XXo) (__udivdi3)
