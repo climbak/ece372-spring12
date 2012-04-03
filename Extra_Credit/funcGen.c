@@ -36,8 +36,8 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define PLLMODE         4               	  // On-chip PLL setting (Fosc)
 #define FCY             (XTFREQ*PLLMODE)/2    // Instruction Cycle Frequency (Fosc/2)
 
-#define BAUDRATE         115200       
-#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
+//#define BAUDRATE         115200       
+//#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
 
 
 
