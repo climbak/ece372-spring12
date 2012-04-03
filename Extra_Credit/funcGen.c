@@ -1,9 +1,9 @@
 // ******************************************************************************************* //
 // File:         lab4.c   
-// Date:         03-22-2012
-// Authors:      Jon Englert, Ryan Courreges, Eric Therrio, Brian Suarez
+// Date:         04-03-2012
+// Author:      Ryan Courreges
 //
-// Description:  Control of two motors using a potentiometer. 
+// Description:  Function generator with control of the frequency using the on board potentiometer 
 //
 // Requirements: This software code requires the MPLAB C30Compiler
 // ******************************************************************************************* //
@@ -35,6 +35,7 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define XTFREQ          7372800         	  // On-board Crystal frequency
 #define PLLMODE         4               	  // On-chip PLL setting (Fosc)
 #define FCY             (XTFREQ*PLLMODE)/2    // Instruction Cycle Frequency (Fosc/2)
+#define PI			    3.14159265			  // Pi
 
 //#define BAUDRATE         115200       
 //#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
@@ -45,6 +46,13 @@ volatile int t = 0; // time variable
 
 int main(void)
 {
+
+
+// ******************************************************************************************* //
+	// Pin configurations
+	//set square, triange, sin wave pins to out
+	//set squareOut, triangleOut and sinOut to the output latches
+
 
 // ******************************************************************************************* //
 // ******************************************************************************************* //
@@ -134,8 +142,18 @@ int main(void)
 	{
 
 	AD1CON1bits.ASAM = 1;			//Start auto-sampling
+	t = TMR1;
 	
-	
+	// set square wave values
+	if(TMR1 >= PR1/2) squareOut = 1;
+	else squareOut = 0;
+
+	//set triangle wave values
+	//if (TMR1 >= PR1/2) triangleScalar = ();
+	//else triangleScalar = -();
+
+	//set sine wave values
+	//sinOut = 1.65*sin(2*PI*t)+1.65
 
 	}
 	
@@ -150,7 +168,7 @@ void _ISR _ADC1Interrupt (void)
 	AD1CON1bits.DONE = 0;
 
 	//If potentiometer is in middle buffer holds 512 (0x0200) because in center of refeneces AVdd/AGND.
-	if (MotorState == 1)
+	/*if (MotorState == 1)
 	{	
 		if (ADC1BUF0 > 0x0200) 
 		{
@@ -189,9 +207,14 @@ void _ISR _ADC1Interrupt (void)
 	printf("POT = %d\n", PORTBbits.RB3);
 	printf("Buffer = %d\n", ADC1BUF0);
 	printf("RightWF = %d\n", RIGHTWF);
-	printf("LeftWF = %d\n", LEFTWF);
+	printf("LeftWF = %d\n", LEFTWF);  */
 }
 
+void _ISR_T1Interrupt (void)
+{
+	IFS0bits.T1IF = 0;
+	TMR1 = 0;
+}
 
 void _ISR _T2Interrupt (void)
 {
@@ -199,7 +222,7 @@ void _ISR _T2Interrupt (void)
 }
 
 
-void _ISR _CNInterrupt (void)
+/*  void _ISR _CNInterrupt (void)
 {
 	IFS1bits.CNIF = 0;
 	
@@ -236,5 +259,5 @@ void _ISR _CNInterrupt (void)
 		}
 		else
 			MotorState = 0;
-	}
-}
+	}  
+} */
