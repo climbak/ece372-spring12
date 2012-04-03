@@ -40,7 +40,8 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 //#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
 
 
-
+volatile int freq = 0; // frequency variable
+volatile int t = 0; // time variable
 
 int main(void)
 {
@@ -87,6 +88,18 @@ int main(void)
 	
 	
 	//TIMER Configuration
+	//     Clear Timer 1 value 
+	TMR1 = 0;			
+ 	//     TON           = 0     (Start timer)
+	//     TCKPS1<2:0>	 = 00    (Set timer prescaler to 1:1)
+	//     TCS           = 0     (Internal clock;  Fosc/2)
+	T1CON = 0x0000;
+	//	   Set default timer period of 2 seconds
+	//     Clear interrupt flag. 
+	IFS0bits.T1IF = 0;		
+	//     Enable interrupt
+	IEC0bits.T1IE = 1;
+
 	//     Clear Timer 2 value 
 	TMR2 = 0;			
  	//     TON           = 0     (Start timer)
@@ -97,6 +110,7 @@ int main(void)
 	IFS0bits.T2IF = 0;		
 	//     Enable interrupt
 	IEC0bits.T2IE = 1;
+
 // ******************************************************************************************* //
 /*	//Configure SW1 to be an input that changes the setting of the motors
 	//Sequence is IDLE - FORWARD - IDLE - REVERSE - IDLE - FORWARD
@@ -118,7 +132,11 @@ int main(void)
 	
 	while (1)
 	{
+
 	AD1CON1bits.ASAM = 1;			//Start auto-sampling
+	
+	
+
 	}
 	
 	return 0;
