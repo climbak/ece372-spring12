@@ -95,6 +95,26 @@ int main(void)
 	//     Enable ADC interrupt
 	IEC0bits.AD1IE = 1;
 	
+	//PWM Configuration
+	//     DISABLE PWMs
+	OC1CON = 0x0000;
+	OC2CON = 0x0000;
+	OC3CON = 0x0000;
+	//     Set initial duty cycles
+	OC1R = 0x0000;
+	OC2R = 0x0000;
+	OC3R = 0x0000;
+	//     Set initial duty cycle fill registers
+	OC1RS = 0x0000;
+	OC2RS = 0x0000;
+	OC3RS = 0x0000;
+	//     ENABLE PWMs
+	//     OCTSEL        = 0     (Timer 2 selected)
+	//     OCM<2:0>      = 110   (PWM mode enabled)
+	OC1CON = 0x0006;
+	OC2CON = 0x0006;
+	OC3CON = 0x0006;
+
 	
 	//Frequency Selection Configuration
 	//		
@@ -150,9 +170,9 @@ int main(void)
 	t = TMR1;
 	
 	// set square wave values
+	PR1 = 1750*ADC1BUF0/1024-250;
 
-	PR2 = 1750*ADC1BUF0/1024-250;
-//	if(TMR2 >= PR2/2) squareOut = 1;
+	//	if(TMR2 >= PR2/2) squareOut = 1;
 	//else squareOut = 0;
 
 	//set triangle wave values
@@ -222,13 +242,13 @@ void _ISR_T1Interrupt (void)
 {
 	IFS0bits.T1IF = 0;
 	TMR1 = 0;
+ 	squareOut = ~squareOut;
 }
 
 void _ISR _T2Interrupt (void)
 {
 	IFS0bits.T2IF = 0;
 	TMR2 = 0;
- 	squareOut = ~squareOut;
 }
 
 
