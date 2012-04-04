@@ -40,6 +40,8 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 //#define BAUDRATE         115200       
 //#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
 
+#define squareOut LATBbits.LATB6 //set squareOut as the latch for pin RB6
+
 
 volatile int freq = 0; // frequency variable
 volatile int t = 0; // time variable
@@ -51,6 +53,9 @@ int main(void)
 // ******************************************************************************************* //
 	// Pin configurations
 	//set square, triange, sin wave pins to out
+	TRISBbits.TRISB6 = 0;  //square wave output pin. physical pin 15
+	TRISBbits.TRISB7 = 0;  //triange wave output pin. physical pin 16
+
 	//set squareOut, triangleOut and sinOut to the output latches
 
 
@@ -145,8 +150,10 @@ int main(void)
 	t = TMR1;
 	
 	// set square wave values
-	if(TMR1 >= PR1/2) squareOut = 1;
-	else squareOut = 0;
+
+	PR2 = 1750*ADC1BUF0/1024-250;
+//	if(TMR2 >= PR2/2) squareOut = 1;
+	//else squareOut = 0;
 
 	//set triangle wave values
 	//if (TMR1 >= PR1/2) triangleScalar = ();
@@ -166,6 +173,7 @@ void _ISR _ADC1Interrupt (void)
 	IFS0bits.AD1IF = 0;
 	AD1CON1bits.ASAM = 0;				//Stop auto-sample
 	AD1CON1bits.DONE = 0;
+
 
 	//If potentiometer is in middle buffer holds 512 (0x0200) because in center of refeneces AVdd/AGND.
 	/*if (MotorState == 1)
@@ -207,7 +215,7 @@ void _ISR _ADC1Interrupt (void)
 	printf("POT = %d\n", PORTBbits.RB3);
 	printf("Buffer = %d\n", ADC1BUF0);
 	printf("RightWF = %d\n", RIGHTWF);
-	printf("LeftWF = %d\n", LEFTWF);  */
+//	printf("LeftWF = %d\n", LEFTWF);  */
 }
 
 void _ISR_T1Interrupt (void)
@@ -219,6 +227,8 @@ void _ISR_T1Interrupt (void)
 void _ISR _T2Interrupt (void)
 {
 	IFS0bits.T2IF = 0;
+	TMR2 = 0;
+ 	squareOut = ~squareOut;
 }
 
 
