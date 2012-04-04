@@ -43,10 +43,10 @@ file_003=no
 file_004=no
 [FILE_INFO]
 file_000=funcGen.c
-file_001=..\..\..\..\..\..\..\..\program files (x86)\microchip\mplab c30\support\PIC24F\h\p24fj64ga002.h
-file_002=..\..\..\..\..\..\..\..\program files (x86)\microchip\mplab c30\include\stdio.h
-file_003=..\..\..\..\..\..\..\..\program files (x86)\microchip\mplab c30\include\stddef.h
-file_004=..\..\..\..\..\..\..\..\program files (x86)\microchip\mplab c30\include\stdarg.h
+file_001=C:\Program Files\Microchip\MPLAB C30\support\PIC24F\h\p24fj64ga002.h
+file_002=C:\Program Files\Microchip\MPLAB C30\include\stdio.h
+file_003=C:\Program Files\Microchip\MPLAB C30\include\stddef.h
+file_004=C:\Program Files\Microchip\MPLAB C30\include\stdarg.h
 [SUITE_INFO]
 suite_guid={479DDE59-4D56-455E-855E-FFF59A3DB57E}
 suite_state=

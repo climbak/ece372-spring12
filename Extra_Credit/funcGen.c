@@ -40,11 +40,17 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 //#define BAUDRATE         115200       
 //#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
 
-#define squareOut LATBbits.LATB6 //set squareOut as the latch for pin RB6
+#define squareOut       LATBbits.LATB0 //set squareOut as the latch for pin RB0
 
+#define LED1            LATBbits.LATB15
+#define LED2            LATBbits.LATB14
+#define LED3            LATBbits.LATB13
+#define LED4 		    LATBbits.LATB12
 
 volatile int freq = 0; // frequency variable
 volatile int t = 0; // time variable
+volatile int count = 0;
+volatile int period = 0;
 
 int main(void)
 {
@@ -53,11 +59,28 @@ int main(void)
 // ******************************************************************************************* //
 	// Pin configurations
 	//set square, triange, sin wave pins to out
-	TRISBbits.TRISB6 = 0;  //square wave output pin. physical pin 15
-	TRISBbits.TRISB7 = 0;  //triange wave output pin. physical pin 16
+	TRISBbits.TRISB0 = 0;  //square wave output pin. physical pin 4
+	TRISBbits.TRISB1 = 0;  //triange wave output pin. physical pin 5
+	TRISBbits.TRISB2 = 0;  //sine wave output pin, physical pin 6
 
 	//set squareOut, triangleOut and sinOut to the output latches
 
+	// set LEDs to output
+    TRISBbits.TRISB15 = 0;
+    TRISBbits.TRISB14 = 0;
+    TRISBbits.TRISB13 = 0;
+    TRISBbits.TRISB12 = 0;
+
+	LATB = 0;
+
+    //LATBbits.LATB15 = 1; 
+	LED1 = 1;
+    //LATBbits.LATB14 = 0; 
+	LED2 = 0;
+    //LATBbits.LATB13 = 1; 
+	LED3 = 1;
+    //LATBbits.LATB12 = 0; 
+	LED4 = 0;
 
 // ******************************************************************************************* //
 // ******************************************************************************************* //
@@ -127,7 +150,25 @@ int main(void)
 	//     TCKPS1<2:0>	 = 00    (Set timer prescaler to 1:1)
 	//     TCS           = 0     (Internal clock;  Fosc/2)
 	T1CON = 0x0000;
-	//	   Set default timer period of 2 seconds
+	// Set Timer 1's period value regsiter to value for 250ms. Please note 
+    // T1CON's register settings below (internal Fosc/2 and 1:256 prescalar).
+    // 
+    //    Fosc     = XTFREQ * PLLMODE
+    //             = 7372800 * 4
+    //             = 29491200
+    // 
+    //    Fosc/2   = 29491200 / 2
+    //             = 14745600
+    //
+    //    Timer 1 Freq = (Fosc/2) / Prescaler
+    //                 = 14745600 / 1
+    //                 = 14745600
+    //
+    //    PR1 = 1 ms / (1 / (T1 Freq)) - 1
+    //        = 1e-3 / (1 / 14745600) - 1
+    //        = 1e-3 * 14745600 - 1
+    //        = 14746 - 1
+	PR1 = 14745;
 	//     Clear interrupt flag. 
 	IFS0bits.T1IF = 0;		
 	//     Enable interrupt
@@ -161,7 +202,7 @@ int main(void)
 
 
 	AD1CON1bits.ADON = 1;
-	T2CONbits.TON = 1;
+	T1CONbits.TON = 1;
 	
 	while (1)
 	{
@@ -170,7 +211,7 @@ int main(void)
 	t = TMR1;
 	
 	// set square wave values
-	PR1 = 1750*ADC1BUF0/1024-250;
+	//period = 1750*ADC1BUF0/1024+250;
 
 	//	if(TMR2 >= PR2/2) squareOut = 1;
 	//else squareOut = 0;
@@ -193,7 +234,7 @@ void _ISR _ADC1Interrupt (void)
 	IFS0bits.AD1IF = 0;
 	AD1CON1bits.ASAM = 0;				//Stop auto-sample
 	AD1CON1bits.DONE = 0;
-
+	period = 1750.*(float)ADC1BUF0/1024.+250.;
 
 	//If potentiometer is in middle buffer holds 512 (0x0200) because in center of refeneces AVdd/AGND.
 	/*if (MotorState == 1)
@@ -238,11 +279,18 @@ void _ISR _ADC1Interrupt (void)
 //	printf("LeftWF = %d\n", LEFTWF);  */
 }
 
-void _ISR_T1Interrupt (void)
+void _ISR _T1Interrupt (void)
 {
 	IFS0bits.T1IF = 0;
-	TMR1 = 0;
- 	squareOut = ~squareOut;
+	//TMR1 = 0;
+	if(count >= period){
+		count = 0;
+ 		squareOut = ~squareOut;
+		LED1 = ~LED1;
+		LED2 = ~LED2;
+	}
+	else count++;
+//	LATB ^= ((0x1000)<<(3));
 }
 
 void _ISR _T2Interrupt (void)
