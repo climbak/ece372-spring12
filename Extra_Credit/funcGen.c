@@ -49,8 +49,9 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 
 volatile int freq = 0; // frequency variable
 volatile int t = 0; // time variable
+volatile int dt = 0;
 volatile int count = 0;
-volatile int period = 0;
+volatile float period = 0;
 
 int main(void)
 {
@@ -80,7 +81,7 @@ int main(void)
     //LATBbits.LATB13 = 1; 
 	LED3 = 1;
     //LATBbits.LATB12 = 0; 
-	LED4 = 0;
+	LED4 = 1;
 
 // ******************************************************************************************* //
 // ******************************************************************************************* //
@@ -223,6 +224,12 @@ int main(void)
 	//set sine wave values
 	//sinOut = 1.65*sin(2*PI*t)+1.65
 
+	//set LED status states
+	if(period <= 250) LED4 = 0;
+	else LED4 = 1;
+	if(period >= 2000) LED3 = 0;
+	else LED3 = 1;
+
 	}
 	
 	return 0;
@@ -234,7 +241,8 @@ void _ISR _ADC1Interrupt (void)
 	IFS0bits.AD1IF = 0;
 	AD1CON1bits.ASAM = 0;				//Stop auto-sample
 	AD1CON1bits.DONE = 0;
-	period = 1750.*(float)ADC1BUF0/1024.+250.;
+	period = 1750.*(float)ADC1BUF0/1023.+250.;
+	dt = (int)(period/2048.);
 
 	//If potentiometer is in middle buffer holds 512 (0x0200) because in center of refeneces AVdd/AGND.
 	/*if (MotorState == 1)
@@ -283,7 +291,7 @@ void _ISR _T1Interrupt (void)
 {
 	IFS0bits.T1IF = 0;
 	//TMR1 = 0;
-	if(count >= period){
+	if(count >= period/2){
 		count = 0;
  		squareOut = ~squareOut;
 		LED1 = ~LED1;
