@@ -244,7 +244,7 @@ void _ISR _ADC1Interrupt (void)
 	period = 1750.*(float)ADC1BUF0/1023.+250.;
 	dt = (int)(period/2048.);
 
-	//If potentiometer is in middle buffer holds 512 (0x0200) because in center of refeneces AVdd/AGND.
+	//If potentiometer is in middle, buffer holds 512 (0x0200) because in center of references AVdd/AGND.
 	/*if (MotorState == 1)
 	{	
 		if (ADC1BUF0 > 0x0200) 
