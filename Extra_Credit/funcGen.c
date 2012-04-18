@@ -47,11 +47,26 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define LED3            LATBbits.LATB13
 #define LED4 		    LATBbits.LATB12
 
+#define C				261.63
+#define D               293.66
+#define	E				329.63
+#define F				349.23
+#define G				392.
+#define A				440.
+#define B				493.88
+#define numNotes		60
+
 volatile int freq = 0; // frequency variable
 volatile int t = 0; // time variable
 volatile int dt = 0;
 volatile int count = 0;
+volatile int countms = 0;
 volatile float period = 0;
+volatile int i = 0;
+//volatile int numNotes = 60;
+//volatile int noteTime = 500;
+volatile int noteTime[numNotes] = {240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,
+							240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500};
 
 int main(void)
 {
@@ -181,6 +196,8 @@ int main(void)
 	//     TCKPS1<2:0>	 = 00    (Set timer prescaler to 1:1)
 	//     TCS           = 0     (Internal clock;  Fosc/2)
 	T2CON = 0x0000;
+	//set PR2 to 1ms
+	PR2 = 14745;
 	//     Clear interrupt flag. 
 	IFS0bits.T2IF = 0;		
 	//     Enable interrupt
@@ -202,14 +219,35 @@ int main(void)
 // ******************************************************************************************* //
 
 
-	AD1CON1bits.ADON = 1;
+	AD1CON1bits.ADON = 0;
 	T1CONbits.TON = 1;
+	T2CONbits.TON = 1;
+	//    Fosc     = XTFREQ * PLLMODE
+    //             = 7372800 * 4
+    //             = 29491200
+    // 
+    //    Fosc/2   = 29491200 / 2
+    //             = 14745600
+    //
+    //    Timer 1 Freq = (Fosc/2) / Prescaler
+    //                 = 14745600 / 1
+    //                 = 14745600
+    //
+    //    PR1 = 1/note / (1 / (T1 Freq)) - 1
+    //        = 1e-3 / (1 / 14745600) - 1
+    //        = 1e-3 * 14745600 - 1
+    //        = 14746 - 1
+	float notes[numNotes] = {C   ,50,C  ,G  ,50,G  ,A  ,50,A  ,G  ,F  ,50,F  ,E  ,50,E  ,D  ,50,D  ,C  ,G  ,50,G  ,F  ,50,F  ,E  ,50,E  ,D  ,
+							G  ,50,G  ,F  ,50,F  ,E  ,50,E  ,D  ,C  ,50,C  ,G  ,50,G  ,A  ,50,A  ,G  ,F  ,50,F  ,E  ,50,E  ,D  ,50,D  ,C  };
+	
 	
 	while (1)
 	{
 
-	AD1CON1bits.ASAM = 1;			//Start auto-sampling
-	t = TMR1;
+	//AD1CON1bits.ASAM = 1;			//Start auto-sampling
+	//t = TMR1;
+	// 
+	PR1 = (int) ((1./notes[i])/(1./14745600.) - 1);
 	
 	// set square wave values
 	//period = 1750*ADC1BUF0/1024+250;
@@ -242,6 +280,7 @@ void _ISR _ADC1Interrupt (void)
 	AD1CON1bits.ASAM = 0;				//Stop auto-sample
 	AD1CON1bits.DONE = 0;
 	period = 1750.*(float)ADC1BUF0/1023.+250.;
+	//PR1 = 11000.*(float)ADC1BUF0/1023 + 13500.;
 	dt = (int)(period/2048.);
 
 	//If potentiometer is in middle, buffer holds 512 (0x0200) because in center of references AVdd/AGND.
@@ -290,21 +329,28 @@ void _ISR _ADC1Interrupt (void)
 void _ISR _T1Interrupt (void)
 {
 	IFS0bits.T1IF = 0;
-	//TMR1 = 0;
-	if(count >= period/2){
+	squareOut = ~squareOut;
+//	TMR1 = 0;
+/*	if(count >= period/2){
 		count = 0;
  		squareOut = ~squareOut;
 		LED1 = ~LED1;
 		LED2 = ~LED2;
 	}
-	else count++;
+	else count++; */
 //	LATB ^= ((0x1000)<<(3));
 }
 
 void _ISR _T2Interrupt (void)
 {
 	IFS0bits.T2IF = 0;
-	TMR2 = 0;
+	//TMR2 = 0;
+	if(countms >= noteTime[i]){
+		countms = 0;
+		i = (i+1) % numNotes;
+	}
+	else countms++;
+	
 }
 
 
