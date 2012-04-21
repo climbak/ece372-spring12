@@ -47,12 +47,23 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define LED3            LATBbits.LATB13
 #define LED4 		    LATBbits.LATB12
 
+// 4th octave note definitions ddivide/multiply by 2 for steeping octave
 #define C				261.63
+#define Cs				277.18
+#define Db				277.18
 #define D               293.66
+#define Ds				311.13
+#define Eb				311.13
 #define	E				329.63
 #define F				349.23
+#define Fs				369.99
+#define Gb				369.99
 #define G				392.
+#define Gs				415.3
+#define Ab				415.3
 #define A				440.
+#define As				466.16
+#define Bb				466.16
 #define B				493.88
 #define numNotes		60
 
