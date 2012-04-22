@@ -39,6 +39,55 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define BAUDRATE         115200       
 #define BRGVAL          ((FCY/BAUDRATE)/16)-1 
 
+#define squareOut       LATBbits.LATB6 //set squareOut as the latch for pin RB6, phys pin 15
+
+// 4th octave note definitions divide/multiply by 2 for stepping octave
+#define C				261.63*2
+#define Cs				277.18*2
+#define Db				277.18*2
+#define D               293.66*2
+#define Ds				311.13*2
+#define Eb				311.13*2
+#define	E				329.63*2
+#define F				349.23*2
+#define Fs				369.99*2
+#define Gb				369.99*2
+#define G				392.*2
+#define Gs				415.3*2
+#define Ab				415.3
+#define A				440.
+#define As				466.16
+#define Bb				466.16
+#define B				493.88
+
+#define numNotes		208
+
+#define b				150. //one beat length in ms
+#define b2				2*b
+#define b3				3*b
+#define b4				4*b
+#define b43				4*b/3
+#define b23				2*b/3
+#define hb				b/2
+#define u				10 //10 ms delay for between same notes
+#define R				100000. //low freq so "R" beats
+
+//volatile int freq = 0; // frequency variable
+//volatile int t = 0; // time variable
+//volatile int dt = 0;
+volatile int count = 0;
+volatile int musicCountms = 0;
+//volatile float period = 0;
+volatile int i = 0;
+
+//volatile int noteTime[numNotes] = {b,b,b,b,b,b,b,b,b,b};
+
+volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b3,b,b3,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b2,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b*7,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,7*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b3,b,u,b,b,b,b,b,b,b,8*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b};
+
+/*
+volatile int noteTime[numNotes] = {240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,
+							240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500};
+*/						
 
 //volatile int MotorState = 0;
 volatile int Reading_BASEIR = 1;
@@ -49,7 +98,7 @@ volatile int success = 0;
 volatile int playback = 0, record = 0;
 volatile int recordingIndex = 0;
 volatile int lastState = 10;
-volatile int msCount = 0;
+volatile int statemsCount = 0;
 volatile int RIGHTIR  = 0;			//PIN26
 volatile int CENTERIR = 0;			//PIN2
 volatile int LEFTIR = 0;
@@ -119,7 +168,7 @@ int main(void)
 		RPOR7bits.RP15R = 21;						// Set RB15 to OC4 pin 26
 		TRISBbits.TRISB15 = 0;
 		//Driver Enable outputs
-		#define MOTORE			LATBbits.LATB6      //Physical pin 15
+		#define MOTORE			LATBbits.LATB10      //Physical pin 15
 		MOTORE = 0;									//Initialize IDLE state
 		
 		
@@ -239,16 +288,32 @@ int main(void)
 	//     Enable interrupt
 	IEC0bits.T2IE = 1;
 
+	//		Clear Timer 3 value
+	TMR3 = 0;
+	//		TON			 = 0     (Start timer)
+	//     TCKPS1<2:0>	 = 00    (Set timer prescaler to 1:1)
+	//     TCS           = 0     (Internal clock;  Fosc/2)
+	T3CON = 0x0000;
+	// set PR3 to default value
+	PR3 = 14745;
+	//     Clear interrupt flag. 
+	IFS0bits.T3IF = 0;		
+	//     Enable interrupt
+	IEC0bits.T3IE = 1;
+	//
+
 	//		Clear Timer 4 value
 	TMR4 = 0;
 	//		TON			 = 0     (Start timer)
 	//     TCKPS1<2:0>	 = 00    (Set timer prescaler to 1:1)
 	//     TCS           = 0     (Internal clock;  Fosc/2)
 	T4CON = 0x0000;
+	// set PR4 to 1ms
+	PR4 = 14745;
 	//     Clear interrupt flag. 
 	IFS1bits.T4IF = 0;		
 	//     Enable interrupt
-	IEC1bits.T4IE = 0;
+	IEC1bits.T4IE = 1;
 
 	//		Clear Timer 5 value
 	TMR5 = 0;
@@ -260,6 +325,7 @@ int main(void)
 	IFS1bits.T5IF = 0;		
 	//     Enable interrupt
 	IEC1bits.T5IE = 1;
+
 // ******************************************************************************************* //
 	//Configure SW1 to be an input that changes whether the program runs or not
 	
@@ -283,6 +349,16 @@ int main(void)
 	//Interrupt flag already cleared
 	//ISR already enabled
 // ******************************************************************************************* //
+	//Configure RB6 to be an output to the speaker for music
+	
+	//Set RB6 to input (pin 15)
+	TRISBbits.TRISB6 = 0;
+// ******************************************************************************************* //
+	//Configure RB10 to be an output for the motor enable bit
+	
+	//Set RB10 to input (pin 21)
+	TRISBbits.TRISB10 = 0;
+// ******************************************************************************************* //
 
 	//set up and initialize the recording arrays
 	unsigned short recordedState[1024] = { 0 };
@@ -296,14 +372,36 @@ int main(void)
 //		stateTime[i] = 0;
 //	}
 	
+	LATB = 0;
 
-	RUN = 1;
+	RUN = 0;
 	AD1CON1bits.ADON = 1;
 	T2CONbits.TON = 1;
+	T3CONbits.TON = 1;
+	T4CONbits.TON = 1;
+	
+	//int notes[numNotes] = {G*2,G*4};
+	 
+	
+	//float notes[numNotes] = {E,u,E,R,E,R,C,E,R,G,R,G,R,C,R,G,R,E,R,A,R,B,R,Bb,A,R,G,E,G,A,R,F,G,R,E,R,C,D,B,R,C,R,G,R,E,R,A,R,B,R,Bb,A,G,E,G,A,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
+	
+
+
+	float notes[numNotes] = {E,u,E,R,E,R,C,E,R,G,R,G/2,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,R,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,C,R,G/2,R,E,R,A,R,B,R,Bb,A,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G/2,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
+	
+
+	/*
+	volatile int noteTime[numNotes] = {240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,
+							240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500};
+	
+
+	float notes[numNotes] = {C   ,50,C  ,G  ,50,G  ,A  ,50,A  ,G  ,F  ,50,F  ,E  ,50,E  ,D  ,50,D  ,C  ,G  ,50,G  ,F  ,50,F  ,E  ,50,E  ,D  ,
+							G  ,50,G  ,F  ,50,F  ,E  ,50,E  ,D  ,C  ,50,C  ,G  ,50,G  ,A  ,50,A  ,G  ,F  ,50,F  ,E  ,50,E  ,D  ,50,D  ,C  };
+	*/
 	
 	while (1)
 	{
-		AD1CON1bits.ASAM = 1;			//Start auto-sampling
+		AD1CON1bits.ASAM = 0;			//Start auto-sampling
 		//record the state change
 /*		if (state != lastState){
 			recordedState[stateIndex] = lastState;
@@ -311,7 +409,11 @@ int main(void)
 			msCount = 0;
 			lastState = state;
 		}
-*/		if(RUN && !success){
+*/
+
+		PR1 = ((int) (7372800./notes[i]) - 1);
+
+		if(RUN && !success){
 			switch(state){
 			case idle: 			//LEFTE = 0;
 								//RIGHTE = 0;
@@ -463,57 +565,6 @@ int main(void)
 }
 
 
-///*  void _ISR _ADC1Interrupt (void)
-//{
-//	IFS0bits.AD1IF = 0;
-//	AD1CON1bits.ASAM = 0;				//Stop auto-sample
-//	AD1CON1bits.DONE = 0;
-//
-//	if(0 /*condition for straight*/){
-//
-//	}	
-//
-//
-//	//If potentiometer is in middle buffer holds 512 (0x0200) because in center of refeneces AVdd/AGND.
-///*	if (MotorState == 1)
-//	{	
-//		if (ADC1BUF0 > 0x0200) 
-//		{
-//			RIGHTWF = (PWMCYCLES + 1);
-//			LEFTWF = (PWMCYCLES+1) - (((ADC1BUF0 + 1) >> (9-POW)) - (PWMCYCLES + 1));
-//		}
-//		else if (ADC1BUF0 < 0x0200)
-//		{
-//			RIGHTWF = (ADC1BUF0 + 1) >> (9-POW);
-//			LEFTWF = (PWMCYCLES+1);
-//		}
-//		else if (ADC1BUF0 == 0x0200)
-//		{
-//			state = forward;
-//			//RIGHTWF = (PWMCYCLES + 1);
-//			//LEFTWF = (PWMCYCLES + 1);
-//		}
-//	}
-//	else if (MotorState == 3)
-//	{
-//		if (ADC1BUF0 > 0x0200) 
-//		{
-//			RIGHTWR = (PWMCYCLES + 1);
-//			LEFTWR = (PWMCYCLES+1) - (((ADC1BUF0 + 1) >> (9-POW)) - (PWMCYCLES + 1));
-//		}
-//		else if (ADC1BUF0 < 0x0200)
-//		{
-//			RIGHTWR = (ADC1BUF0 + 1) >> (9-POW);
-//			LEFTWR = (PWMCYCLES+1);
-//		}
-//		else if (ADC1BUF0 == 0x0200)
-//		{
-//			RIGHTWR = (PWMCYCLES + 1);
-//			LEFTWR = (PWMCYCLES + 1);
-//		}
-//	}   */
-//}  */
-
 void _ISR _ADC1Interrupt (void)
 {
 	IFS0bits.AD1IF = 0;
@@ -581,11 +632,30 @@ void _ISR _T2Interrupt (void)
 	IFS0bits.T2IF = 0;
 }
 
+// Timer 3 controls audio output frequency
+void _ISR _T3Interrupt (void)
+{
+	IFS0bits.T3IF = 0;
+	squareOut = ~squareOut;
+}
+
+//Timer 4 controls how long each note of a song is played
+void _ISR _T4Interrupt (void)
+{
+	IFS1bits.T4IF = 0;
+
+	if(musicCountms >= noteTime[i]){
+		musicCountms = 0;
+		i = (i+1) % numNotes;
+	}
+	else musicCountms++;
+}
+
 void _ISR _T5Interrupt (void)
 {
 	IFS1bits.T5IF = 0;
 	if(record && ! playback){
-		msCount++;
+		statemsCount++;
 	} 
 	else if (playback && ! record){
 		
@@ -608,36 +678,4 @@ void _ISR _CNInterrupt (void)
 	}
 	else success = 0;
 
-	/*	//IDLE State
-		if(MotorState == 0  || MotorState == 2)
-		{
-			RIGHTE = 0;
-			LEFTE = 0;
-			MotorState++;
-		}
-		//FORWARD State
-		else if (MotorState == 1)
-		{
-			RIGHTWF = RIGHTWR;			//Switch duty cycles
-			LEFTWF = LEFTWR;	
-			RIGHTWR = 0;				//Set reverse duty cycle to zero		
-			LEFTWR = 0;
-			RIGHTE = 1;					//Enable Motors
-			LEFTE = 1;
-			MotorState++;
-		}
-		//REVERSE State
-		else if (MotorState == 3)
-		{
-			RIGHTWR = RIGHTWF;			//Switch duty cycles
-			LEFTWR = LEFTWF;	
-			RIGHTWF = 0;				//Set forward duty cycle to zero		
-			LEFTWF = 0;
-			RIGHTE = 1;					//Enable Motors
-			LEFTE = 1;
-			MotorState = 0;
-		}
-		else
-			MotorState = 0;   */
-	//}
 }

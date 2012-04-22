@@ -41,7 +41,7 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 //#define BAUDRATE         115200       
 //#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
 
-#define squareOut       LATBbits.LATB0 //set squareOut as the latch for pin RB0
+#define squareOut       LATBbits.LATB6 //set squareOut as the latch for pin RB6, phys pin 15
 
 #define LED1            LATBbits.LATB15
 #define LED2            LATBbits.LATB14
@@ -107,7 +107,7 @@ int main(void)
 // ******************************************************************************************* //
 	// Pin configurations
 	//set square, triange, sin wave pins to out
-	TRISBbits.TRISB0 = 0;  //square wave output pin. physical pin 4
+	TRISBbits.TRISB6 = 0;  //square wave output pin. physical pin 4
 	TRISBbits.TRISB1 = 0;  //triange wave output pin. physical pin 5
 	TRISBbits.TRISB2 = 0;  //sine wave output pin, physical pin 6
 
@@ -296,7 +296,7 @@ int main(void)
 	//AD1CON1bits.ASAM = 1;			//Start auto-sampling
 	//t = TMR1;
 	// 
-	PR1 = ((int) (14745600./notes[i]) - 1);
+	PR1 = ((int) (7372800./notes[i]) - 1);
 	
 	// set square wave values
 	//period = 1750*ADC1BUF0/1024+250;
