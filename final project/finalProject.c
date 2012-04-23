@@ -591,8 +591,8 @@ void _ISR _ADC1Interrupt (void)
 	AD1CON1bits.DONE = 0;
 
 	RIGHTIR  = ADC1BUF0;			//PIN2
-	CENTERIR = ADC1BUF1;			//PIN6
-	LEFTIR   = ADC1BUF2;			//PIN7
+	CENTERIR = ADC1BUF1;			//PIN4
+	LEFTIR   = ADC1BUF2;			//PIN6
 
 	//Capture BASEIR
 
