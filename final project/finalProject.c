@@ -10,6 +10,7 @@
 
 #include "p24fj64ga002.h"
 #include <stdio.h>
+#include <math.h>
 
 // ******************************************************************************************* //
 // Configuration bits for CONFIG1 settings. 
@@ -36,8 +37,8 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define PLLMODE         4               	  // On-chip PLL setting (Fosc)
 #define FCY             (XTFREQ*PLLMODE)/2    // Instruction Cycle Frequency (Fosc/2)
 
-#define BAUDRATE         115200       
-#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
+//#define BAUDRATE         115200       
+//#define BRGVAL          ((FCY/BAUDRATE)/16)-1 
 
 #define squareOut       LATBbits.LATB6 //set squareOut as the latch for pin RB6, phys pin 15
 
@@ -60,9 +61,9 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define Bb				466.16
 #define B				493.88
 
-#define numNotes		208
+#define numNotes		241
 
-#define b				150. //one beat length in ms
+#define b				150 //one beat length in ms
 #define b2				2*b
 #define b3				3*b
 #define b4				4*b
@@ -72,18 +73,29 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define u				10 //10 ms delay for between same notes
 #define R				100000. //low freq so "R" beats
 
-//volatile int freq = 0; // frequency variable
-//volatile int t = 0; // time variable
-//volatile int dt = 0;
+volatile int freq = 0; // frequency variable
+volatile int t = 0; // time variable
+volatile int dt = 0;
 volatile int count = 0;
 volatile int musicCountms = 0;
-//volatile float period = 0;
+volatile float period = 0;
 volatile int i = 0;
+
+//volatile int numNotes = 60;
+//volatile int noteTime = 500;
 
 //volatile int noteTime[numNotes] = {b,b,b,b,b,b,b,b,b,b};
 
-volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b3,b,b3,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b2,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b*7,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,7*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b3,b,u,b,b,b,b,b,b,b,8*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b};
-
+//volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b3,b,b3,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b*7,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,*********b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,7*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b3,b,u,b,b,b,b,b,b,b,8*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b};
+volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,
+								   b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b2,b4,
+								   b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b2,b4,
+								   b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,u,b,b,b,b,b,b,b,b4,b4,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2};
+//volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,****b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,****b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****
+//					****page 2**** b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****
+//					****page 3**** b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****
+//					****page 4**** b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,****b,u,b,b,b,b,b,b,b,b4,b4,****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,****b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2}
+//volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b****,b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b****page 2****,b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2****,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****page 3****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****page 4****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2****bu,,b,b,b,b,b,b,b,b4,b4,****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2****b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2};
 /*
 volatile int noteTime[numNotes] = {240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,
 							240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500};
@@ -119,12 +131,12 @@ void turnAround(){
 }
 
 void delay(unsigned int usDelay) {
-	PR4 = (14*usDelay);	
-	TMR4 = 0;
-	IFS1bits.T4IF = 0;
-	T4CONbits.TON = 1;	while (IFS1bits.T4IF == 0) {}
-	T4CONbits.TON = 0;
-	IFS1bits.T4IF = 0;
+	//PR4 = (14*usDelay);	
+	//TMR4 = 0;
+//	IFS1bits.T4IF = 0;
+//	T4CONbits.TON = 1;	while (IFS1bits.T4IF == 0) {}
+//	T4CONbits.TON = 0;
+//	IFS1bits.T4IF = 0;
 }
 
 int main(void)
@@ -168,7 +180,7 @@ int main(void)
 		RPOR7bits.RP15R = 21;						// Set RB15 to OC4 pin 26
 		TRISBbits.TRISB15 = 0;
 		//Driver Enable outputs
-		#define MOTORE			LATBbits.LATB10      //Physical pin 15
+		#define MOTORE			LATBbits.LATB10      //Physical pin 21
 		MOTORE = 0;									//Initialize IDLE state
 		
 		
@@ -351,12 +363,12 @@ int main(void)
 // ******************************************************************************************* //
 	//Configure RB6 to be an output to the speaker for music
 	
-	//Set RB6 to input (pin 15)
+	//Set RB6 to output (pin 15)
 	TRISBbits.TRISB6 = 0;
 // ******************************************************************************************* //
 	//Configure RB10 to be an output for the motor enable bit
 	
-	//Set RB10 to input (pin 21)
+	//Set RB10 to output (pin 21)
 	TRISBbits.TRISB10 = 0;
 // ******************************************************************************************* //
 
@@ -374,7 +386,7 @@ int main(void)
 	
 	LATB = 0;
 
-	RUN = 0;
+	RUN = 1;
 	AD1CON1bits.ADON = 1;
 	T2CONbits.TON = 1;
 	T3CONbits.TON = 1;
@@ -383,11 +395,18 @@ int main(void)
 	//int notes[numNotes] = {G*2,G*4};
 	 
 	
-	//float notes[numNotes] = {E,u,E,R,E,R,C,E,R,G,R,G,R,C,R,G,R,E,R,A,R,B,R,Bb,A,R,G,E,G,A,R,F,G,R,E,R,C,D,B,R,C,R,G,R,E,R,A,R,B,R,Bb,A,G,E,G,A,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
-	
-
-
-	float notes[numNotes] = {E,u,E,R,E,R,C,E,R,G,R,G/2,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,R,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,C,R,G/2,R,E,R,A,R,B,R,Bb,A,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G/2,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
+	//float notes[numNotes] =   {E,u,E,R,E,R,C,E,R,G,R,G,R,C,R,G,R,E,R,A,R,B,R,Bb,A,R,G,E,G,A,R,F,G,R,E,R,C,D,B,R,C,R,G,R,E,R,A,R,B,R,Bb,A,G,E,G,A,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
+	//float notes[numNotes] =   {E,u,E,R,E,R,C,E,R,G,R,G/2,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,R,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G/2,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
+	float notes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,
+							   R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+							   R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+							   C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
+//	float notes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,****C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,****G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R****,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R****,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,
+//				****page 2**** R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+//				****page 3**** R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,****R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+//				****page 4**** C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,****C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
+//	float notes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,****C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,****G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R****,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R****,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R****page 2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,Eb*2,R,R,D*2,R,C*2,R,R,R****page 3****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,Eb*2,R,R,D*2,R,C*2,R,R,R****page 4****,C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,****C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
+//float notes[numNotes] = {E,u,E,R,E,R,C,E,R,G,R,G/2,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,R,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,C,R,G/2,R,E,R,A,R,B,R,Bb,A,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G/2,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
 	
 
 	/*
@@ -401,7 +420,7 @@ int main(void)
 	
 	while (1)
 	{
-		AD1CON1bits.ASAM = 0;			//Start auto-sampling
+		AD1CON1bits.ASAM = 1;			//Start auto-sampling
 		//record the state change
 /*		if (state != lastState){
 			recordedState[stateIndex] = lastState;
@@ -411,7 +430,7 @@ int main(void)
 		}
 */
 
-		PR1 = ((int) (7372800./notes[i]) - 1);
+		PR3 = ((int) (14745600./notes[i]) - 1);
 
 		if(RUN && !success){
 			switch(state){
@@ -577,7 +596,7 @@ void _ISR _ADC1Interrupt (void)
 
 	//Capture BASEIR
 
-/*	if (Reading_BASEIR < 10)
+	if (Reading_BASEIR < 10)
 	{
 		int temp;
 		temp = (RIGHTIR + CENTERIR + LEFTIR)/3;
@@ -586,14 +605,14 @@ void _ISR _ADC1Interrupt (void)
 		BASEIR = (BASEIR + temp)/2;
 		Reading_BASEIR++;
 	}
-*/
 
-BASEIR=0;
+
+//BASEIR=0;
 	
 	//Determine State
 	if (Reading_BASEIR >= 10)
 	{
-		if ((RIGHTIR < (BASEIR + 5)) && (CENTERIR < (BASEIR + 5)) && (LEFTIR < (BASEIR + 5)))
+		if ((RIGHTIR < (BASEIR + 10)) && (CENTERIR < (BASEIR + 10)) && (LEFTIR < (BASEIR + 10)))
 		{
 			//Recapture IR source
 			state = idle;

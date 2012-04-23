@@ -66,7 +66,7 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define As				466.16
 #define Bb				466.16
 #define B				493.88
-#define numNotes		208
+#define numNotes		241
 #define b				150 //one beat length in ms
 #define b2				2*b
 #define b3				3*b
@@ -93,8 +93,16 @@ volatile int i = 0;
 
 //volatile int noteTime[numNotes] = {b,b,b,b,b,b,b,b,b,b};
 
-volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b3,b,b3,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b2,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b*7,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,7*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b3,b,u,b,b,b,b,b,b,b,8*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b};
-
+//volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b3,b,b3,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b*7,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,*********b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,7*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b3,b,u,b,b,b,b,b,b,b,8*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b};
+volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,
+								   b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b2,b4,
+								   b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b2,b4,
+								   b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,u,b,b,b,b,b,b,b,b4,b4,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2};
+//volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,****b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,****b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****
+//					****page 2**** b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****
+//					****page 3**** b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****
+//					****page 4**** b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,****b,u,b,b,b,b,b,b,b,b4,b4,****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,****b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2}
+//volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b****,b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b****page 2****,b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2****,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****page 3****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****page 4****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2****bu,,b,b,b,b,b,b,b,b4,b4,****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2****b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2};
 /*
 volatile int noteTime[numNotes] = {240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,
 							240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500};
@@ -107,17 +115,17 @@ int main(void)
 // ******************************************************************************************* //
 	// Pin configurations
 	//set square, triange, sin wave pins to out
-	TRISBbits.TRISB6 = 0;  //square wave output pin. physical pin 4
-	TRISBbits.TRISB1 = 0;  //triange wave output pin. physical pin 5
-	TRISBbits.TRISB2 = 0;  //sine wave output pin, physical pin 6
+	TRISBbits.TRISB6 = 0;  //square wave output pin. physical pin 15
+//	TRISBbits.TRISB1 = 0;  //triange wave output pin. physical pin 5
+//	TRISBbits.TRISB2 = 0;  //sine wave output pin, physical pin 6
 
 	//set squareOut, triangleOut and sinOut to the output latches
 
 	// set LEDs to output
-    TRISBbits.TRISB15 = 0;
-    TRISBbits.TRISB14 = 0;
-    TRISBbits.TRISB13 = 0;
-    TRISBbits.TRISB12 = 0;
+//    TRISBbits.TRISB15 = 0;
+//    TRISBbits.TRISB14 = 0;
+//    TRISBbits.TRISB13 = 0;
+//    TRISBbits.TRISB12 = 0;
 
 	LATB = 0;
 
@@ -274,11 +282,18 @@ int main(void)
 	//int notes[numNotes] = {G*2,G*4};
 	 
 	
-	//float notes[numNotes] = {E,u,E,R,E,R,C,E,R,G,R,G,R,C,R,G,R,E,R,A,R,B,R,Bb,A,R,G,E,G,A,R,F,G,R,E,R,C,D,B,R,C,R,G,R,E,R,A,R,B,R,Bb,A,G,E,G,A,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
-	
-
-
-	float notes[numNotes] = {E,u,E,R,E,R,C,E,R,G,R,G/2,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,R,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,C,R,G/2,R,E,R,A,R,B,R,Bb,A,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G/2,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
+	//float notes[numNotes] =   {E,u,E,R,E,R,C,E,R,G,R,G,R,C,R,G,R,E,R,A,R,B,R,Bb,A,R,G,E,G,A,R,F,G,R,E,R,C,D,B,R,C,R,G,R,E,R,A,R,B,R,Bb,A,G,E,G,A,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
+	//float notes[numNotes] =   {E,u,E,R,E,R,C,E,R,G,R,G/2,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,R,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G/2,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
+	float notes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,
+							   R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+							   R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+							   C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
+//	float notes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,****C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,****G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R****,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R****,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,
+//				****page 2**** R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+//				****page 3**** R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,****R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+//				****page 4**** C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,****C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
+//	float notes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,****C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,****G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R****,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R****,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R****page 2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,Eb*2,R,R,D*2,R,C*2,R,R,R****page 3****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,Eb*2,R,R,D*2,R,C*2,R,R,R****page 4****,C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,****C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
+//float notes[numNotes] = {E,u,E,R,E,R,C,E,R,G,R,G/2,R,C,R,G/2,R,E/2,R,A,R,B,R,Bb,A,R,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,C,R,G/2,R,E,R,A,R,B,R,Bb,A,G/2,E,G,A*2,R,F,G,R,E,R,C,D,B,R,R,G,Gb,F,Ds,R,E,R,Gs/2,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,Eb,R,D,R,C,R,R,G,Gb,F,Ds,R,E,R,Gs,A,C,R,A,C,D,R,G,Gb,F,Ds,R,E,R,C,R,C,u,C,R,R,G,Gb,F,Ds,R,E,Gs,A,C,R,R,A,C,D,R,Eb,R,D,R,C,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G/2,R,C,u,C,R,C,R,C,D,E,R,C,u,C,R,C,R,C,D,R,E,C,R,A,G,R};
 	
 
 	/*
@@ -296,7 +311,7 @@ int main(void)
 	//AD1CON1bits.ASAM = 1;			//Start auto-sampling
 	//t = TMR1;
 	// 
-	PR1 = ((int) (7372800./notes[i]) - 1);
+	PR1 = ((int) (14745600./notes[i]) - 1);
 	
 	// set square wave values
 	//period = 1750*ADC1BUF0/1024+250;
