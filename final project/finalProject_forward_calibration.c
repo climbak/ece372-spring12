@@ -435,7 +435,13 @@ int main(void)
         T3CONbits.TON = 0;
         T4CONbits.TON = 1;
         
-
+        RIGHTWR = 0;
+        LEFTWR = 0;
+        RIGHTWF = (PWMCYCLES + 1)*2/3;
+        LEFTWF = (PWMCYCLES + 1)*2/3;
+		MOTORE = 1;
+		delay(5000);
+		
         while (1)
         {
 /*                AD1CON1bits.ASAM = 1;                   //Start auto-sampling
@@ -471,7 +477,6 @@ int main(void)
 				}
 
 */
-				state = forward;
                 if(RUN && !success){
                         switch(state){
                         case idle:   
@@ -640,7 +645,6 @@ int main(void)
                       success = 0;
 					  T3CONbits.TON = 0;
                 } 
-				delay(10000);
       }     
         return 0;
 }

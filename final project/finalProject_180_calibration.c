@@ -434,11 +434,12 @@ int main(void)
         T2CONbits.TON = 1;
         T3CONbits.TON = 0;
         T4CONbits.TON = 1;
-        
-
+		
         while (1)
         {
-/*                AD1CON1bits.ASAM = 1;                   //Start auto-sampling
+
+		turnAround();
+ /*               AD1CON1bits.ASAM = 1;                   //Start auto-sampling
                 //record the state change
                 if ((state != lastState)  && RUN  && !success){
 
@@ -470,8 +471,7 @@ int main(void)
 						statemsCount=0;
 				}
 
-*/
-				state = forward;
+
                 if(RUN && !success){
                         switch(state){
                         case idle:   
@@ -541,11 +541,10 @@ int main(void)
 				success = 0;
 				RUN = 0;
                 int j;
-/*
 				for(j=stateIndex; j>=stateIndex-20; j--){
 					recordedState[j] = forward;
 				}
-*/ 
+ 
 				while(song == flagpole);
                 MOTORE = 1;
                 RIGHTWR = 0;
@@ -639,8 +638,8 @@ int main(void)
                       RUN = 0;
                       success = 0;
 					  T3CONbits.TON = 0;
-                } 
-				delay(10000);
+                } */
+		
       }     
         return 0;
 }
@@ -855,17 +854,17 @@ void turnAround(void)
         LEFTWF = 0;
 		delay(500);
 
-		MOTORE = 1;
-        RIGHTWR = (PWMCYCLES + 1);
-        LEFTWR = (PWMCYCLES + 1)*3/4;
-		delay(280);
+//		MOTORE = 1;
+//        RIGHTWR = (PWMCYCLES + 1);
+//        LEFTWR = (PWMCYCLES + 1)*3/4;
+//		delay(280);
 
-        MOTORE = 0;
-        RIGHTWR = 0;
-        LEFTWR = 0;
-        RIGHTWF = 0;
-        LEFTWF = 0;
-		delay(500);
+//        MOTORE = 0;
+//        RIGHTWR = 0;
+//        LEFTWR = 0;
+//        RIGHTWF = 0;
+//        LEFTWF = 0;
+//		delay(500);
 
 		MOTORE = 1;
         RIGHTWR = PWMCYCLES*3/4;

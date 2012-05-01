@@ -23,7 +23,7 @@
 // program the PIC for standalone operation, change the COE_ON option to COE_OFF.
 
 _CONFIG1( JTAGEN_OFF & GCP_OFF & GWRP_OFF & 
-          BKBUG_ON & COE_OFF & ICS_PGx1 & 
+          BKBUG_ON & COE_ON & ICS_PGx1 & 
           FWDTEN_OFF & WINDIS_OFF & FWPSA_PR128 & WDTPS_PS32768 )
 
 _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & OSCIOFNC_OFF &
@@ -46,7 +46,7 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define C                               261.63*2
 #define Cs                              277.18*2
 #define Db                              277.18*2
-#define D               				293.66*2
+#define D               293.66*2
 #define Ds                              311.13*2
 #define Eb                              311.13*2
 #define E                               329.63*2
@@ -61,10 +61,7 @@ _CONFIG2( IESO_OFF & SOSCSEL_SOSC & WUTSEL_LEG & FNOSC_PRIPLL & FCKSM_CSDCMD & O
 #define Bb                              466.16
 #define B                               493.88
 
-#define overworldNumNotes               241
-#define flagpoleNumNotes				30
-#define underworldNumNotes				62
-#define starmanNumNotes					31
+#define numNotes                241
 
 #define b                               150 //one beat length in ms
 #define b2                              2*b
@@ -84,54 +81,25 @@ volatile int musicCountms = 0;
 volatile float period = 0;
 volatile int i = 0;
 
-/************************************************************  OVERWORLD ************************************************************/
-volatile int overworldNoteTimes[overworldNumNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,
+//volatile int numNotes = 60;
+//volatile int noteTime = 500;
+
+//volatile int noteTime[numNotes] = {b,b,b,b,b,b,b,b,b,b};
+
+//volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b3,b,b3,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b2,b,b,b,b,b,b,b,b43,b43,b43,b,b,b,b,b,b,b,b,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,b*7,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,*********b,b3,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b2,b,b2,b,7*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b3,b,u,b,b,b,b,b,b,b,8*b,b,u,b,b,b,b,b,b,b,b,b,b,b,b};
+volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,
                                                                    b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b2,b4,
                                                                    b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,b,b,b,b2,b,b,b2,b4,
                                                                    b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,u,b,b,b,b,b,b,b,b4,b4,b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2};
 //volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,****b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b,****b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****
 //                                      ****page 2**** b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****
 //                                      ****page 3**** b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****
-//                                      ****page 4**** b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,****b,u,b,b,b,b,b,b,b,b4,b4,****b,u,b,b,b,b,b,b,b,b,b,bb,b,b,b2,****b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2}        
-volatile float overworldNotes[overworldNumNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,
-                                  			R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
-                                   			R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
-                                   			C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
-//float overworldNotes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,****C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,****G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R****,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R****,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,
-//                     ****page 2**** R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
-//                     ****page 3**** R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,****R,Eb*2,R,R,D*2,R,C*2,R,R,R,
-//                     ****page 4**** C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,****C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
-
-/************************************************************  FLAGPOLE  ************************************************************/
-
-volatile int flagpoleNoteTimes[flagpoleNumNotes] = {b23,b23,b23,b23,b23,b23,b2,b2,b23,b23,b23,b23,b23,b23,b2,b2,b23,b23,b23,b23,b23,b23,b2,b23,u,b23,u,b23,b4,12*b};
-volatile float flagpoleNotes[flagpoleNumNotes] = {G/2,C,E,G,C*2,E*2,G*2,E*2,Ab,C,Eb,Ab*2,C*2,Eb*2,Ab*4,Eb*2,Bb,D,F,Bb*2,D*2,F*2,Bb*4,B*4,u,B*4,u,B*4,C*4,R}; 
-
-/***********************************************************  UNDERWORLD  ***********************************************************/
-
-volatile int underworldNoteTimes[underworldNumNotes] = {b,b,b,b,b,b,6*b,
-														b,b,b,b,b,b,6*b,
-														b,b,b,b,b,b,6*b,
-														b,b,b,b,b,b,4*b,b23,b23,b23,
-														b2,u,b2,u,b2,u,b2,u,b2,u,b2,u,
-														b23,b23,b23,b23,b23,b23,
-														b43,u,b43,u,b43,u,b43,u,b43,u,b43,u,
-														12*b};
-volatile float underworldNotes[underworldNumNotes] = {C,C*2,A,C*2,Bb,Bb*2,R,
-													  C,C*2,A,C*2,Bb,Bb*2,R,
-													  F/2,F,D/2,D,Eb/2,Eb,R,
-													  F/2,F,D/2,D,Eb/2,Eb,R,Eb,D,Db,
-													  C,u,Eb,u,D,u,Ab,u,G/2,u,Db,u,
-													  C,Gb,F,E,Bb*2,A*2,
-													  Ab*2,u,Eb,u,B,u,Bb,u,A,u,Ab,u,
-													  R};
-
-/*************************************************************  STARMAN  ************************************************************/
-
-volatile int starmanNoteTimes[starmanNumNotes] = {b,u,b,u,b,u,hb,hb,hb,b,u,hb,hb,hb,b,b,u,b,u,b,u,hb,hb,hb,b,u,hb,hb,hb,b,u};
-volatile float starmanNotes[starmanNumNotes] = {C*2,u,C*2,u,C*2,u,D,C*2,R,C*2,u,D,D*2,D,C,B*2,u,B*2,u,B*2,u,C,B*2,R,B*2,u,C,B*2,C,B*2,u};
-
- /***********************************************************************************************************************************/                                      
+//                                      ****page 4**** b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,****b,u,b,b,b,b,b,b,b,b4,b4,****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2,****b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2}
+//volatile int noteTime[numNotes] = {b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2,****b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b****,b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****,b,b,b,b,b2,b,b,b,b,b,b,b,b,b,b****page 2****,b2,b2,b2,b,b,b,b,b,b,b,b,b,b,b2****,b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2****,b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****page 3****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b,b,b,b,b,b,u,b,b,b2,****b2,b,b,b,b,b,b,b,b,b,b,b,b,b,b,****b2,b,b,b,b,b2,b,b,b2,b4,****page 4****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2****bu,,b,b,b,b,b,b,b,b4,b4,****b,u,b,b,b,b,b,b,b,b,b,b,b,b,b,b2****b,u,b,b,b,b,b,b,b,b,b,b2,b,b,b2};
+/*
+volatile int noteTime[numNotes] = {240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,
+                                                        240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500};
+*/                                              
 
 //volatile int MotorState = 0;
 volatile int Reading_BASEIR = 1;
@@ -148,9 +116,6 @@ volatile int CENTERIR = 0;                      //PIN2
 volatile int LEFTIR = 0;
 volatile int cnt;
 volatile int p=0;
-volatile int tempRIGHTIR;
-volatile int tempCENTERIR;
-volatile int tempLEFTIR;
 
 volatile enum POSSIBLE_STATES{
                                 idle,
@@ -162,14 +127,6 @@ volatile enum POSSIBLE_STATES{
                                 reverse,
                                 search 
                           } state;
-
-volatile enum POSSIBLE_SONGS{
-								overworld,
-								flagpole,
-								underworld,
-								starman
-							} song;														
-
 /*
 //set up and initialize the recording arrays
 volatile unsigned short recordedState[1000] = { 0 };
@@ -181,9 +138,7 @@ void delay(unsigned int usDelay) ;
 
 void turnAround(void);
 
-		volatile unsigned char recordedState[1250] = { 0 };
-		volatile unsigned int stateTime[1250] = { 0 };
-		volatile unsigned int stateIndex = 0;
+
 
 
 int main(void)
@@ -204,7 +159,7 @@ int main(void)
 
                 //Thresholds for deteremining whether a slight turn or hard turn should be made
                 //Value given in digital steps    ((Vref+ - Vref-)/1024 * THRESHOLD)
-                #define THRESHOLD_SLIGHT                50
+                #define THRESHOLD_SLIGHT                20
                 #define THRESHOLD_HARD                  50
 
 
@@ -213,7 +168,7 @@ int main(void)
                 // Number of clock cycles per PWM period.
                 #define PWMCYCLES          PR2
                 //Configure such that the number of cycles is a power of 2 (2,4,8,16...256,512)
-                PWMCYCLES = 0x03FF;   //0x03FF;             //Number of cycles is 1023      
+                PWMCYCLES = 0x03FF;             //Number of cycles is 1023      
                         
                 
                 //Ports used for output to H-bridge
@@ -426,39 +381,80 @@ int main(void)
         //Set RB10 to output (pin 21)
         TRISBbits.TRISB10 = 0;
 // ******************************************************************************************* //
+		unsigned short recordedState[1000] = { 0 };
+		unsigned int stateTime[1000] = { 0 };
+		unsigned int stateIndex = 0;
 
+        
         LATB = 0;
-        RUN = 0;
+        RUN = 1;
 
-        AD1CON1bits.ADON = 0;
+        AD1CON1bits.ADON = 1;
         T2CONbits.TON = 1;
         T3CONbits.TON = 0;
         T4CONbits.TON = 1;
         
+        //int notes[numNotes] = {G*2,G*4};
+         
+        
+        float notes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,
+                                   R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+                                   R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+                                   C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
+//      float notes[numNotes] =   {E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R,****C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A*2,R,****G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R****,C*2,R,R,G,R,E,R,R,A*2,R,B*2,R,Bb*2,A,R****,G,E*2,G*2,A*4,R,F*2,G*2,R,E*2,R,C*2,D*2,B*2,R,
+//                              ****page 2**** R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+//                              ****page 3**** R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,C*4,R,C*4,u,C*4,R,R****,R,G*2,Gb*2,F*2,Ds*2,R,E*2,R,Gs,A*2,C*2,R,A*2,C*2,D*2,****R,Eb*2,R,R,D*2,R,C*2,R,R,R,
+//                              ****page 4**** C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,C*2,u,C*2,R,C*2,R,C*2,D*2,E*2,R,R,****C*2,u,C*2,R,C*2,R,C*2,D*2,R,E*2,C*2,R,A*2,G,R,R****,E*2,u,E*2,R,E*2,R,C*2,E*2,R,G*2,R,R,G,R,R};
+       
+
+        /*
+        volatile int noteTime[numNotes] = {240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,
+                                                        240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500,240,10,250,240,10,250,240,10,250,500};
+        
+
+        float notes[numNotes] = {C   ,50,C  ,G  ,50,G  ,A  ,50,A  ,G  ,F  ,50,F  ,E  ,50,E  ,D  ,50,D  ,C  ,G  ,50,G  ,F  ,50,F  ,E  ,50,E  ,D  ,
+                                                        G  ,50,G  ,F  ,50,F  ,E  ,50,E  ,D  ,C  ,50,C  ,G  ,50,G  ,A  ,50,A  ,G  ,F  ,50,F  ,E  ,50,E  ,D  ,50,D  ,C  };
+        */
+
+
+		recordedState[1] = 1;
+		recordedState[2] = 2;
+		recordedState[3] = 4;
+		stateTime[1] = 500;
+		stateTime[2] = 1000;
+		stateTime[3] = 500;
+		stateIndex = 4;
+		success = 1;
 
         while (1)
         {
-/*                AD1CON1bits.ASAM = 1;                   //Start auto-sampling
+                AD1CON1bits.ASAM = 0;                   //Start auto-sampling
                 //record the state change
-                if ((state != lastState)  && RUN  && !success){
-
-					if(lastState == 2)
-						lastState = 4;
-					else if (lastState == 4)
-						lastState = 2;
-
+/*                if ((state != lastState)  && RUN  && !success){
                         recordedState[stateIndex] = lastState;
                         stateTime[stateIndex] = statemsCount;
                         statemsCount = 0;
                         lastState = state;
 						stateIndex++;
 					
-						//printf("state: %d \n", recordedState[stateIndex-1]);
-						//printf("time: %d \n", stateTime[stateIndex-1]);
-						//printf("Index %d \n", (stateIndex-1));
+						printf("state: %d \n", recordedState[stateIndex-1]);
+						printf("time: %d \n", stateTime[stateIndex-1]);
+						printf("Index %d \n", (stateIndex-1));
                 }
-		
- //               PR3 = ((int) (14745600./notes[i]) - 1);
+*/			
+/*				if ( success)
+				{
+					int j;
+					for (j=0; j<stateIndex; j++)
+					{
+						printf("%d ", recordedState[j]);
+						printf("%d \n", stateTime[i]);
+					}
+					success = 0;
+					RUN = 0;
+				}
+*/		
+                PR3 = ((int) (14745600./notes[i]) - 1);
 
 				if (RUN == 0)
 				{
@@ -467,11 +463,9 @@ int main(void)
                           LEFTWR = 0;
                           RIGHTWF = 0;
                           LEFTWF = 0;
-						statemsCount=0;
 				}
 
-*/
-				state = forward;
+
                 if(RUN && !success){
                         switch(state){
                         case idle:   
@@ -485,50 +479,47 @@ int main(void)
 		                             MOTORE = 1;
 		                             RIGHTWR = 0;
 		                             LEFTWR = 0;
-		                             RIGHTWF = (PWMCYCLES + 1)*2/3;
-		                             LEFTWF = (PWMCYCLES + 1)*2/3;
-									 AD1CON1bits.ASAM = 0;
-									 delay(4);
-									 AD1CON1bits.ASAM = 1;
+		                             RIGHTWF = (PWMCYCLES + 1);
+		                             LEFTWF = (PWMCYCLES + 1);
 		                             break;
                         case hardLeft: 
 		                             MOTORE = 1;
 		                             RIGHTWR = 0;
 		                             LEFTWR = 0;
-		                             RIGHTWF = (PWMCYCLES + 1)*2/3;
-		                             LEFTWF = (PWMCYCLES + 1)/4;
+		                             RIGHTWF = (PWMCYCLES + 1);
+		                             LEFTWF = 0;
 		                             break;
                         case slightLeft:
 		                             MOTORE = 1;
 		                             RIGHTWR = 0;
 		                             LEFTWR = 0;
 		                             RIGHTWF = (PWMCYCLES + 1);
-		                             LEFTWF = (PWMCYCLES + 1)*7/8;
+		                             LEFTWF = (PWMCYCLES + 1)*3/4;
 		                             break;
                         case hardRight: 
                                      MOTORE = 1;
                                      RIGHTWR = 0;
                                      LEFTWR = 0;
-                                     RIGHTWF = (PWMCYCLES + 1)/4;
-                                     LEFTWF = (PWMCYCLES + 1)*2/3;
+                                     RIGHTWF = 0;
+                                     LEFTWF = (PWMCYCLES + 1);
                                      break;
                         case slightRight:
                                      MOTORE = 1;
                                      RIGHTWR = 0;
                                      LEFTWR = 0;
-                                     RIGHTWF = (PWMCYCLES + 1)*7/8;
+                                     RIGHTWF = (PWMCYCLES + 1)*3/4;
                                      LEFTWF = (PWMCYCLES + 1);
                                      break;
                         case reverse:
                                      MOTORE = 1;
                                      RIGHTWR = (PWMCYCLES + 1);
-                                     LEFTWR = (PWMCYCLES + 1)*2/3;
+                                     LEFTWR = (PWMCYCLES + 1);
                                      break;
                         case search:
                                      MOTORE = 1;
                                      LEFTWR = 0;
                                      RIGHTWR = 0;
-                                     RIGHTWF = (PWMCYCLES+1)*3/4;
+                                     RIGHTWF = (PWMCYCLES + 1);
                                      LEFTWF = 0;
                                      break;
 
@@ -537,110 +528,100 @@ int main(void)
             else if(RUN && success){
 				AD1CON1bits.ADON = 0;
                 AD1CON1bits.ASAM = 0;
-                turnAround();
-				success = 0;
-				RUN = 0;
-                int j;
+                        turnAround();
+                        int j;
+                        for(j=1; j<stateIndex; j++)
+						{
+                                //set the state to the 
+                                state = recordedState[j];
+                                // set the movement to the corresponding settings
+                                switch(state){
+                                case forward:           //LEFTE = 1;
+                                                                        //RIGHTE = 1;
+                                                                        MOTORE = 1;
+                                                                        RIGHTWR = 0;
+                                                                        LEFTWR = 0;
+                                                                        RIGHTWF = (PWMCYCLES + 1);
+                                                                        LEFTWF = (PWMCYCLES + 1);
+                                                                        break;
+                                case hardLeft:          //LEFTE = 1;
+                                                                        //RIGHTE = 1;
+                                                                        MOTORE = 1;
+                                                                        RIGHTWR = 0;
+                                                                        LEFTWR = 0;
+                                                                        RIGHTWF = (PWMCYCLES + 1);
+                                                                        LEFTWF = 0;
+                                                                        break;
+                                case slightLeft:        //LEFTE = 1;
+                                                                        //RIGHTE = 1;
+                                                                        MOTORE = 1;
+                                                                        RIGHTWR = 0;
+                                                                        LEFTWR = 0;
+                                                                        RIGHTWF = (PWMCYCLES + 1);
+                                                                        LEFTWF = (PWMCYCLES + 1)/2;
+                                                                        break;
+                                case hardRight:         //LEFTE = 1;
+                                                                        //RIGHTE = 1;
+                                                                        MOTORE = 1;
+                                                                        RIGHTWR = 0;
+                                                                        LEFTWR = 0;
+                                                                        RIGHTWF = 0;
+                                                                        LEFTWF = (PWMCYCLES + 1);
+                                                                        break;
+                                case slightRight:       //LEFTE = 1;
+                                                                        //RIGHTE = 1;
+                                                                        MOTORE = 1;
+                                                                        RIGHTWR = 0;
+                                                                        LEFTWR = 0;
+                                                                        RIGHTWF = (PWMCYCLES + 1)/2;
+                                                                        LEFTWF = (PWMCYCLES + 1);
+                                                                        break;
+                                case reverse:           //LEFTE = 1;
+                                                                        //RIGHTE = 1;
+                                                                        MOTORE = 1;
+                                                                        RIGHTWR = (PWMCYCLES + 1);
+                                                                        LEFTWR = (PWMCYCLES + 1);
+                                                                        break;
+                                case search:            //LEFTE = 1;
+                                                                        //RIGHTE = 1;
+                                                                        MOTORE = 1;
+                                                                        LEFTWR = 0;
+                                                                        RIGHTWR = 0;
+                                                                        RIGHTWF = (PWMCYCLES + 1);
+                                                                        LEFTWF = 0;
+                                                                        break;
+                                case idle:                    //LEFTE = 0;
+                                                                        //RIGHTE = 0;
+                                                                        MOTORE = 0;
+                                                                        RIGHTWR = 0;
+                                                                        LEFTWR = 0;
+                                                                        RIGHTWF = 0;
+                                                                        LEFTWF = 0;
+                                                                        break;
+                                }
+                                // delay the loop until recorded state time is elapsed
+                                delay(stateTime[j]);
 /*
-				for(j=stateIndex; j>=stateIndex-20; j--){
-					recordedState[j] = forward;
-				}
+								statemsCount = 0;
+
+								        MOTORE = 0;
+								        RIGHTWR = 0;
+								        LEFTWR = 0;
+								        RIGHTWF = 0;
+								        LEFTWF = 0;
+										delay(500);
 */ 
-				while(song == flagpole);
-                MOTORE = 1;
-                RIGHTWR = 0;
-                LEFTWR = 0;
-                RIGHTWF = (PWMCYCLES + 1)*2/3;
-                LEFTWF = (PWMCYCLES + 1)*2/3;
-				delay(150);
-
-                for(j=stateIndex; j>=0; j--)
-				{
-                 	//set the state to the 
-                 	state = recordedState[j];
-                 	// set the movement to the corresponding settings
-                 	switch(state){
-                              case forward:           //LEFTE = 1;
-                                                                      //RIGHTE = 1;
-                                                                      MOTORE = 1;
-                                                                      RIGHTWR = 0;
-                                                                      LEFTWR = 0;
-                                                                      RIGHTWF = (PWMCYCLES + 1)*2/3;
-                                                                      LEFTWF = (PWMCYCLES + 1)*2/3;
-																	  delay(4);
-                                                                      break;
-                              case hardLeft:          //LEFTE = 1;
-                                                                      //RIGHTE = 1;
-                                                                      MOTORE = 1;
-                                                                      RIGHTWR = 0;
-                                                                      LEFTWR = 0;
-                                                                      RIGHTWF = (PWMCYCLES + 1)*2/3;
-                                                                      LEFTWF = (PWMCYCLES + 1)/4;
-                                                                      break;
-                              case slightLeft:        //LEFTE = 1;
-                                                                      //RIGHTE = 1;
-                                                                      MOTORE = 1;
-                                                                      RIGHTWR = 0;
-                                                                      LEFTWR = 0;
-                                                                      RIGHTWF = (PWMCYCLES + 1);
-                                                                      LEFTWF = (PWMCYCLES + 1)/2;
-                                                                      break;
-                              case hardRight:         //LEFTE = 1;
-                                                                      //RIGHTE = 1;
-                                                                      MOTORE = 1;
-                                                                      RIGHTWR = 0;
-                                                                      LEFTWR = 0;
-                                                                      RIGHTWF = (PWMCYCLES + 1)/4;
-                                                                      LEFTWF = (PWMCYCLES + 1)*2/3;
-                                                                      break;
-                              case slightRight:       //LEFTE = 1;
-                                                                      //RIGHTE = 1;
-                                                                      MOTORE = 1;
-                                                                      RIGHTWR = 0;
-                                                                      LEFTWR = 0;
-                                                                      RIGHTWF = (PWMCYCLES + 1)/2;
-                                                                      LEFTWF = (PWMCYCLES + 1);
-                                                                      break;
-                              case reverse:           //LEFTE = 1;
-                                                                      //RIGHTE = 1;
-                                                                      MOTORE = 1;
-                                                                      RIGHTWR = (PWMCYCLES + 1);
-                                                                      LEFTWR = (PWMCYCLES + 1);
-                                                                      break;
-                              case search:            //LEFTE = 1;
-                                                                      //RIGHTE = 1;
-                                                                      MOTORE = 1;
-                                                                      LEFTWR = 0;
-                                                                      RIGHTWR = 0;
-                                                                      RIGHTWF = (PWMCYCLES + 1)*3/4;
-                                                                      LEFTWF = 0;
-                                                                      break;
-                              case idle:                    //LEFTE = 0;
-                                                                      //RIGHTE = 0;
-                                                                      MOTORE = 0;
-                                                                      RIGHTWR = 0;
-                                                                      LEFTWR = 0;
-                                                                      RIGHTWF = 0;
-                                                                      LEFTWF = 0;
-                                                                      break;
-                              }
-                              // delay the loop until recorded state time is elapsed
-                              delay(stateTime[j]);
-
-                  }
-					  song = starman;
-					  musicCountms = i = 0;
-                      MOTORE = 1;
-                      RIGHTWR = 0;
-                      LEFTWR = PWMCYCLES+1;
-                      RIGHTWF = PWMCYCLES+1;
-                      LEFTWF = 0;
-					  delay(10000);
-                      RUN = 0;
-                      success = 0;
-					  T3CONbits.TON = 0;
-                } 
-				delay(10000);
+                      }
+                        // reset the RUN and success variables and disable the motors
+                        MOTORE = 0;
+                        RIGHTWR = 0;
+                        LEFTWR = 0;
+                        RIGHTWF = 0;
+                        LEFTWF = 0;
+                        RUN = 0;
+                        success = 0;
+                        MOTORE = 0;
+                }
       }     
         return 0;
 }
@@ -652,25 +633,13 @@ void _ISR _ADC1Interrupt (void)
         AD1CON1bits.ASAM = 0;                           //Stop auto-sample
         AD1CON1bits.DONE = 0;
 
-		if (p<10)
-		{
-	      	tempRIGHTIR  += ADC1BUF0;                    //PIN2
-	        tempCENTERIR += ADC1BUF1;                    //PIN4
-	        tempLEFTIR   += ADC1BUF2;                    //PIN6
-			p++;
-		}
-		else 
-		{
-			RIGHTIR  = tempRIGHTIR/10;                    //PIN2
-	        CENTERIR = tempCENTERIR/10;                    //PIN4
-	        LEFTIR   = tempLEFTIR/10;                    //PIN6
-			p = tempRIGHTIR = tempCENTERIR = tempLEFTIR = 0;
-		}
-
+      	RIGHTIR  = ADC1BUF0;                    //PIN2
+        CENTERIR = ADC1BUF1;                    //PIN4
+        LEFTIR   = ADC1BUF2;                    //PIN6
 
         //Capture BASEIR
 
-        if (Reading_BASEIR < 100  && p == 0)
+        if (Reading_BASEIR < 100)
         {
                 int temp;
                 temp = (RIGHTIR + CENTERIR + LEFTIR)/3;
@@ -681,53 +650,39 @@ void _ISR _ADC1Interrupt (void)
         }
 
         //Determine State
-        if(RUN){
-			if (Reading_BASEIR >= 100 && p == 0)
-	        {
-	                if ((RIGHTIR < (BASEIR + 10)) && (CENTERIR < (BASEIR + 10)) && (LEFTIR < (BASEIR + 10)))
-	                {
-	                        //Recapture IR source
-	                        state = search;
-	                }
-	                else if (LEFTIR < (RIGHTIR + THRESHOLD_SLIGHT)  &&  RIGHTIR < (LEFTIR + THRESHOLD_SLIGHT) && CENTERIR > (BASEIR + 10))
-	                {
-	                        //Forward
-	                        state = forward;
-	                }
-	
-/*	                else if ((LEFTIR < (RIGHTIR + THRESHOLD_SLIGHT))  &&  (RIGHTIR < (LEFTIR + THRESHOLD_HARD)))
-	                {       
-	                        //Slight Left
-	                        state = slightLeft;
-	                }
-*/	
-	                else if (LEFTIR > RIGHTIR + THRESHOLD_HARD)
-	                {
-	                        //Hard Left
-	                        state = hardLeft;
-	                }
-/*	                else if ((RIGHTIR > LEFTIR + THRESHOLD_SLIGHT)  &&  (RIGHTIR < LEFTIR + THRESHOLD_HARD))
-	                {       
-	                        //Slight Right
-	                        state = slightRight;
-	                }
-*/	
-	                else if (RIGHTIR > LEFTIR + THRESHOLD_HARD)
-	                {
-	                        //Hard Right
-	                        state = hardRight;
-	                }         
-			}
+        if (Reading_BASEIR >= 100)
+        {
+                if ((RIGHTIR < (BASEIR + 10)) && (CENTERIR < (BASEIR + 10)) && (LEFTIR < (BASEIR + 10)))
+                {
+                        //Recapture IR source
+                        state = search;
+                }
+                else if (LEFTIR < (RIGHTIR + THRESHOLD_SLIGHT)  &&  RIGHTIR < (LEFTIR + THRESHOLD_SLIGHT) && CENTERIR > (BASEIR + 10))
+                {
+                        //Forward
+                        state = forward;
+                }
+                else if ((LEFTIR < (RIGHTIR + THRESHOLD_SLIGHT))  &&  (RIGHTIR < (LEFTIR + THRESHOLD_HARD)))
+                {       
+                        //Slight Left
+                        state = slightLeft;
+                }
+                else if (LEFTIR > RIGHTIR + THRESHOLD_HARD)
+                {
+                        //Hard Left
+                        state = hardLeft;
+                }
+                else if ((RIGHTIR > LEFTIR + THRESHOLD_SLIGHT)  &&  (RIGHTIR < LEFTIR + THRESHOLD_HARD))
+                {       
+                        //Slight Right
+                        state = slightRight;
+                }
+                else if (RIGHTIR > LEFTIR + THRESHOLD_HARD)
+                {
+                        //Hard Right
+                        state = hardRight;
+                }         
 		}
-	else state = idle;
-	
-/*		if(p==0)
-		{
-			RIGHTIR  = 0;                    //PIN2
-	        CENTERIR = 0;                    //PIN4
-	        LEFTIR   = 0;                    //PIN6
-		}
-*/
 }
 
 //Timer 2 is used for the PWM output.  PR2 is constantly set to 1024.
@@ -746,49 +701,6 @@ void _ISR _T3Interrupt (void)
 //Timer 4 controls how long each note of a song is played
 void _ISR _T4Interrupt (void)
 {
-	cnt++;
-	statemsCount++;
-    IFS1bits.T4IF = 0;
-	if(song == overworld){
-        if(musicCountms >= overworldNoteTimes[i]){
-            musicCountms = 0;
-            i = (i+1) % overworldNumNotes;
-			PR3 = ((int) (14745600./overworldNotes[i]) - 1);
-        }
-        else musicCountms++;
-	}
-	else if(song == flagpole){
-		if(i < flagpoleNumNotes){
-			if(musicCountms >= flagpoleNoteTimes[i]){
-				musicCountms = 0;
-				i++;
-				PR3 = ((int) (14745600./flagpoleNotes[i]) - 1);
-			}
-			else musicCountms++;
-		}
-		else{
-			song = underworld;
-			musicCountms = i = 0;
-		}
-	}
-	else if(song == underworld){
-		if(musicCountms >= underworldNoteTimes[i]){
-            musicCountms = 0;
-            i = (i+1) % underworldNumNotes;
-			PR3 = ((int) (14745600./underworldNotes[i]) - 1);
-        }
-        else musicCountms++;
-	}
-	else if(song == starman){
-		if(musicCountms >= starmanNoteTimes[i]){
-            musicCountms = 0;
-            i = (i+1) % starmanNumNotes;
-			PR3 = ((int) (14745600./starmanNotes[i]) - 1);
-        }
-        else musicCountms++;
-	}
-}
-/*{
 		cnt++;
 		statemsCount++;
         IFS1bits.T4IF = 0;
@@ -796,10 +708,9 @@ void _ISR _T4Interrupt (void)
         if(musicCountms >= noteTime[i]){
                 musicCountms = 0;
                 i = (i+1) % numNotes;
-        		PR3 = ((int) (14745600./notes[i]) - 1);
         }
         else musicCountms++;
-}*/
+}
 
 void _ISR _CNInterrupt (void)
 {
@@ -807,36 +718,15 @@ void _ISR _CNInterrupt (void)
         
         if(SW1 == 0)
         {
-		//		T3CONbits.TON = ~T3CONbits.TON;
-                RUN = ~RUN;     
-        }
-        else if(CONTACT == 0)
-        {
-				song = flagpole;
-				musicCountms = i = 0;
-                success = 1;
-				MOTORE = 0;
-                //state = idle;
-        }
-       // else success = 0;
-}
-/*{
-        IFS1bits.CNIF = 0;
-        
-        if(SW1 == 0)
-        {
-				T3CONbits.TON = ~T3CONbits.TON;
                 RUN = ~RUN;     
         }
         else if(CONTACT == 0)
         {
                 success = 1;
                 state = idle;
-				recordedState[stateIndex] = lastState;
-                stateTime[stateIndex] = statemsCount;
         }
        // else success = 0;
-}*/
+}
 
 
 void delay(unsigned int usDelay) 
@@ -857,8 +747,8 @@ void turnAround(void)
 
 		MOTORE = 1;
         RIGHTWR = (PWMCYCLES + 1);
-        LEFTWR = (PWMCYCLES + 1)*3/4;
-		delay(280);
+        LEFTWR = (PWMCYCLES + 1);
+		delay(500);
 
         MOTORE = 0;
         RIGHTWR = 0;
@@ -868,24 +758,16 @@ void turnAround(void)
 		delay(500);
 
 		MOTORE = 1;
-        RIGHTWR = PWMCYCLES*3/4;
+        RIGHTWR = 0;
         LEFTWR = 0;
         RIGHTWF = 0;
-        LEFTWF = PWMCYCLES/2;
-		delay(900);
+        LEFTWF = (PWMCYCLES + 1);
+		delay(750);
 
         MOTORE = 0;
         RIGHTWR = 0;
         LEFTWR = 0;
         RIGHTWF = 0;
         LEFTWF = 0;
-		delay(500);
-
-/*		RIGHTWR = 0;
-		LEFTWR = 0;
-		RIGHTWF = (PWMCYCLES + 1);
-		LEFTWF = (PWMCYCLES + 1)-850; 
-		MOTORE = 1;
-		delay(6000);
-		MOTORE = 0;   */
+		delay(1000);
 }

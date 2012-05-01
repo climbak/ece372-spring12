@@ -430,7 +430,7 @@ int main(void)
         LATB = 0;
         RUN = 0;
 
-        AD1CON1bits.ADON = 0;
+        AD1CON1bits.ADON = 1;
         T2CONbits.TON = 1;
         T3CONbits.TON = 0;
         T4CONbits.TON = 1;
@@ -438,15 +438,15 @@ int main(void)
 
         while (1)
         {
-/*                AD1CON1bits.ASAM = 1;                   //Start auto-sampling
+                AD1CON1bits.ASAM = 1;                   //Start auto-sampling
                 //record the state change
                 if ((state != lastState)  && RUN  && !success){
 
-					if(lastState == 2)
+/*					if(lastState == 2)
 						lastState = 4;
 					else if (lastState == 4)
 						lastState = 2;
-
+*/
                         recordedState[stateIndex] = lastState;
                         stateTime[stateIndex] = statemsCount;
                         statemsCount = 0;
@@ -470,8 +470,7 @@ int main(void)
 						statemsCount=0;
 				}
 
-*/
-				state = forward;
+
                 if(RUN && !success){
                         switch(state){
                         case idle:   
@@ -640,7 +639,6 @@ int main(void)
                       success = 0;
 					  T3CONbits.TON = 0;
                 } 
-				delay(10000);
       }     
         return 0;
 }
@@ -807,7 +805,7 @@ void _ISR _CNInterrupt (void)
         
         if(SW1 == 0)
         {
-		//		T3CONbits.TON = ~T3CONbits.TON;
+				T3CONbits.TON = ~T3CONbits.TON;
                 RUN = ~RUN;     
         }
         else if(CONTACT == 0)
