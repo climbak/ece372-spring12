@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_30 (B) q
+Microchip Technology Inc, vv3_30 (B) :
 
 Tool Name:
   c:\program files (x86)\microchip\mplab c30\bin\bin\..\bin/pic30-coff-ld.exe
@@ -38,28 +38,39 @@ c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt
                               (_resetPRI)
 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(data_init_standard.o)
                               c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o) (_data_init_standard)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divsf3.o)
+                              finalProject_v1.o (__divsf3)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(fixsfsi.o)
+                              finalProject_v1.o (__fixsfsi)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(funpack2.o)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divsf3.o) (_funpack2)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(futil.o)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divsf3.o) (_fPropagateNaN)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(fpack.o)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divsf3.o) (_fpack)
+c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(funpack.o)
+                              c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(fixsfsi.o) (_funpack)
 
 
 Program Memory  [Origin = 0x200, Length = 0xa9fa]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200                0x94            0xde  (222)
-.const                       0x294               0x3c4           0x5a6  (1446)
-.dinit                       0x658               0xf1a          0x16a7  (5799)
-.text                       0x1572               0x6b2           0xa0b  (2571)
+.text                        0x200               0x200           0x300  (768)
+.dinit                       0x400               0xfa8          0x177c  (6012)
+.text                       0x13a8               0x76a           0xb1f  (2847)
 
-                     Total program memory used (bytes):         0x2736  (10038) 15%
+                     Total program memory used (bytes):         0x259b  (9627) 14%
 
 
 Data Memory  [Origin = 0x800, Length = 0x2000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.ndata                       0x800                   0          0x1690  (5776)
-.nbss                       0x1e90                   0             0xc  (12)
+.ndata                       0x800                   0          0x1766  (5990)
+.nbss                       0x1f66                   0             0xc  (12)
 
-                        Total data memory used (bytes):         0x169c  (5788) 70%
+                        Total data memory used (bytes):         0x1772  (6002) 73%
 
 
 Dynamic Memory Usage
@@ -67,9 +78,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                       0x1e9c                               0x964  (2404)
+stack                       0x1f72                               0x88e  (2190)
 
-                        Maximum dynamic memory (bytes):          0x964  (2404)
+                        Maximum dynamic memory (bytes):          0x88e  (2190)
 
 
 External Symbols in Data Memory (by address):
@@ -82,93 +93,111 @@ External Symbols in Data Memory (by address):
                     0x080a                  _period
                     0x080e                  _i
                     0x0810                  _noteTime
-                    0x09f2                  _Reading_BASEIR
-                    0x09f4                  _BASEIR
-                    0x09f6                  _RUN
-                    0x09f8                  _success
-                    0x09fa                  _playback
-                    0x09fc                  _record
-                    0x09fe                  _recordingIndex
-                    0x0a00                  _lastState
-                    0x0a02                  _statemsCount
-                    0x0a04                  _RIGHTIR
-                    0x0a06                  _CENTERIR
-                    0x0a08                  _LEFTIR
-                    0x0a0a                  _p
-                    0x0a0c                  _recordedState
-                    0x10e2                  _stateTime
-                    0x1e8e                  _stateIndex
-                    0x1e90                  _POW
-                    0x1e92                  _cnt
-                    0x1e94                  _tempRIGHTIR
-                    0x1e96                  _tempCENTERIR
-                    0x1e98                  _tempLEFTIR
-                    0x1e9a                  _state
+                    0x09f2                  _notes
+                    0x0db6                  _Reading_BASEIR
+                    0x0db8                  _BASEIR
+                    0x0dba                  _RUN
+                    0x0dbc                  _success
+                    0x0dbe                  _playback
+                    0x0dc0                  _record
+                    0x0dc2                  _recordingIndex
+                    0x0dc4                  _lastState
+                    0x0dc6                  _statemsCount
+                    0x0dc8                  _RIGHTIR
+                    0x0dca                  _CENTERIR
+                    0x0dcc                  _LEFTIR
+                    0x0dce                  _p
+                    0x0dd0                  _recordedState
+                    0x13ac                  _stateTime
+                    0x1f64                  _stateIndex
+                    0x1f66                  _POW
+                    0x1f68                  _cnt
+                    0x1f6a                  _tempRIGHTIR
+                    0x1f6c                  _tempCENTERIR
+                    0x1f6e                  _tempLEFTIR
+                    0x1f70                  _state
 
 External Symbols in Data Memory (by name):
 
-                    0x09f4                  _BASEIR
-                    0x0a06                  _CENTERIR
-                    0x0a08                  _LEFTIR
-                    0x1e90                  _POW
-                    0x0a04                  _RIGHTIR
-                    0x09f6                  _RUN
-                    0x09f2                  _Reading_BASEIR
-                    0x1e92                  _cnt
+                    0x0db8                  _BASEIR
+                    0x0dca                  _CENTERIR
+                    0x0dcc                  _LEFTIR
+                    0x1f66                  _POW
+                    0x0dc8                  _RIGHTIR
+                    0x0dba                  _RUN
+                    0x0db6                  _Reading_BASEIR
+                    0x1f68                  _cnt
                     0x0806                  _count
                     0x0804                  _dt
                     0x0800                  _freq
                     0x080e                  _i
-                    0x0a00                  _lastState
+                    0x0dc4                  _lastState
                     0x0808                  _musicCountms
                     0x0810                  _noteTime
-                    0x0a0a                  _p
+                    0x09f2                  _notes
+                    0x0dce                  _p
                     0x080a                  _period
-                    0x09fa                  _playback
-                    0x09fc                  _record
-                    0x0a0c                  _recordedState
-                    0x09fe                  _recordingIndex
-                    0x1e9a                  _state
-                    0x1e8e                  _stateIndex
-                    0x10e2                  _stateTime
-                    0x0a02                  _statemsCount
-                    0x09f8                  _success
+                    0x0dbe                  _playback
+                    0x0dc0                  _record
+                    0x0dd0                  _recordedState
+                    0x0dc2                  _recordingIndex
+                    0x1f70                  _state
+                    0x1f64                  _stateIndex
+                    0x13ac                  _stateTime
+                    0x0dc6                  _statemsCount
+                    0x0dbc                  _success
                     0x0802                  _t
-                    0x1e96                  _tempCENTERIR
-                    0x1e98                  _tempLEFTIR
-                    0x1e94                  _tempRIGHTIR
+                    0x1f6c                  _tempCENTERIR
+                    0x1f6e                  _tempLEFTIR
+                    0x1f6a                  _tempRIGHTIR
 
 External Symbols in Program Memory (by address):
 
                   0x000200                  __resetPRI
                   0x000222                  __psv_init
-                  0x000232                  __data_init_standard
                   0x000232                  __data_init
+                  0x000232                  __data_init_standard
                   0x000290                  __DefaultInterrupt
-                  0x001572                  _main
-                  0x00198a                  __ADC1Interrupt
-                  0x001ac8                  __T2Interrupt
-                  0x001adc                  __T3Interrupt
-                  0x001b10                  __T4Interrupt
-                  0x001b62                  __CNInterrupt
-                  0x001b98                  _delay
-                  0x001baa                  _turnAround
+                  0x000294                  ___divsf3
+                  0x000318                  ___fixsfsi
+                  0x00035a                  __funpack2
+                  0x00036a                  __fPropagateNaN
+                  0x00037c                  __fbopExit
+                  0x000384                  __fbopReturnNaN
+                  0x00038a                  __fpack
+                  0x0003d6                  __funpack
+                  0x0013a8                  _main
+                  0x001828                  __ADC1Interrupt
+                  0x001966                  __T2Interrupt
+                  0x00197a                  __T3Interrupt
+                  0x0019ae                  __T4Interrupt
+                  0x001a1e                  __CNInterrupt
+                  0x001a86                  _delay
+                  0x001a98                  _turnAround
 
 External Symbols in Program Memory (by name):
 
-                  0x00198a                  __ADC1Interrupt
-                  0x001b62                  __CNInterrupt
+                  0x001828                  __ADC1Interrupt
+                  0x001a1e                  __CNInterrupt
                   0x000290                  __DefaultInterrupt
-                  0x001ac8                  __T2Interrupt
-                  0x001adc                  __T3Interrupt
-                  0x001b10                  __T4Interrupt
+                  0x001966                  __T2Interrupt
+                  0x00197a                  __T3Interrupt
+                  0x0019ae                  __T4Interrupt
+                  0x000294                  ___divsf3
+                  0x000318                  ___fixsfsi
                   0x000232                  __data_init
                   0x000232                  __data_init_standard
+                  0x00036a                  __fPropagateNaN
+                  0x00037c                  __fbopExit
+                  0x000384                  __fbopReturnNaN
+                  0x00038a                  __fpack
+                  0x0003d6                  __funpack
+                  0x00035a                  __funpack2
                   0x000222                  __psv_init
                   0x000200                  __resetPRI
-                  0x001b98                  _delay
-                  0x001572                  _main
-                  0x001baa                  _turnAround
+                  0x001a86                  _delay
+                  0x0013a8                  _main
+                  0x001a98                  _turnAround
 
 Memory Configuration
 
@@ -202,7 +231,7 @@ LOAD c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/PIC24F\libpPIC
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200         0x94
+.text             0x000200        0x200
  *(.init)
  .init            0x000200         0x32 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o)
                   0x000200                  _resetPRI
@@ -218,6 +247,20 @@ LOAD c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib/PIC24F\libpPIC
                   0x000290                  _DefaultInterrupt
  *(.libc)
  *(.libm)
+ .libm            0x000294         0x84 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divsf3.o)
+                  0x000294                  __divsf3
+ .libm            0x000318         0x42 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(fixsfsi.o)
+                  0x000318                  __fixsfsi
+ .libm            0x00035a         0x10 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(funpack2.o)
+                  0x00035a                  _funpack2
+ .libm            0x00036a         0x20 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(futil.o)
+                  0x00036a                  _fPropagateNaN
+                  0x00037c                  _fbopExit
+                  0x000384                  _fbopReturnNaN
+ .libm            0x00038a         0x4c c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(fpack.o)
+                  0x00038a                  _fpack
+ .libm            0x0003d6         0x2a c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(funpack.o)
+                  0x0003d6                  _funpack
  *(.libdsp)
  *(.lib*)
 
@@ -282,19 +325,19 @@ __CONFIG1         0x00abfe          0x2
                   0x00001c          0x4 LONG 0x290 DEFINED (__Interrupt4)?ABSOLUTE (__Interrupt4):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x290 DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000020          0x4 LONG 0x290 DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000022          0x4 LONG 0x1ac8 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000024          0x4 LONG 0x1adc DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000022          0x4 LONG 0x1966 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000024          0x4 LONG 0x197a DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x290 DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x290 DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002a          0x4 LONG 0x290 DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002c          0x4 LONG 0x290 DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00002e          0x4 LONG 0x198a DEFINED (__ADC1Interrupt)?ABSOLUTE (__ADC1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00002e          0x4 LONG 0x1828 DEFINED (__ADC1Interrupt)?ABSOLUTE (__ADC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000030          0x4 LONG 0x290 DEFINED (__Interrupt14)?ABSOLUTE (__Interrupt14):ABSOLUTE (__DefaultInterrupt)
                   0x000032          0x4 LONG 0x290 DEFINED (__Interrupt15)?ABSOLUTE (__Interrupt15):ABSOLUTE (__DefaultInterrupt)
                   0x000034          0x4 LONG 0x290 DEFINED (__SI2C1Interrupt)?ABSOLUTE (__SI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000036          0x4 LONG 0x290 DEFINED (__MI2C1Interrupt)?ABSOLUTE (__MI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000038          0x4 LONG 0x290 DEFINED (__CompInterrupt)?ABSOLUTE (__CompInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00003a          0x4 LONG 0x1b62 DEFINED (__CNInterrupt)?ABSOLUTE (__CNInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00003a          0x4 LONG 0x1a1e DEFINED (__CNInterrupt)?ABSOLUTE (__CNInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00003c          0x4 LONG 0x290 DEFINED (__INT1Interrupt)?ABSOLUTE (__INT1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00003e          0x4 LONG 0x290 DEFINED (__Interrupt21)?ABSOLUTE (__Interrupt21):ABSOLUTE (__DefaultInterrupt)
                   0x000040          0x4 LONG 0x290 DEFINED (__Interrupt22)?ABSOLUTE (__Interrupt22):ABSOLUTE (__DefaultInterrupt)
@@ -302,7 +345,7 @@ __CONFIG1         0x00abfe          0x2
                   0x000044          0x4 LONG 0x290 DEFINED (__Interrupt24)?ABSOLUTE (__Interrupt24):ABSOLUTE (__DefaultInterrupt)
                   0x000046          0x4 LONG 0x290 DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000048          0x4 LONG 0x290 DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00004a          0x4 LONG 0x1b10 DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00004a          0x4 LONG 0x19ae DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00004c          0x4 LONG 0x290 DEFINED (__T5Interrupt)?ABSOLUTE (__T5Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00004e          0x4 LONG 0x290 DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000050          0x4 LONG 0x290 DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -410,19 +453,19 @@ __CONFIG1         0x00abfe          0x2
                   0x00011c          0x4 LONG 0x290 DEFINED (__AltInterrupt4)?ABSOLUTE (__AltInterrupt4):DEFINED (__Interrupt4)?ABSOLUTE (__Interrupt4):ABSOLUTE (__DefaultInterrupt)
                   0x00011e          0x4 LONG 0x290 DEFINED (__AltIC2Interrupt)?ABSOLUTE (__AltIC2Interrupt):DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000120          0x4 LONG 0x290 DEFINED (__AltOC2Interrupt)?ABSOLUTE (__AltOC2Interrupt):DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000122          0x4 LONG 0x1ac8 DEFINED (__AltT2Interrupt)?ABSOLUTE (__AltT2Interrupt):DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000124          0x4 LONG 0x1adc DEFINED (__AltT3Interrupt)?ABSOLUTE (__AltT3Interrupt):DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000122          0x4 LONG 0x1966 DEFINED (__AltT2Interrupt)?ABSOLUTE (__AltT2Interrupt):DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000124          0x4 LONG 0x197a DEFINED (__AltT3Interrupt)?ABSOLUTE (__AltT3Interrupt):DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000126          0x4 LONG 0x290 DEFINED (__AltSPI1ErrInterrupt)?ABSOLUTE (__AltSPI1ErrInterrupt):DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000128          0x4 LONG 0x290 DEFINED (__AltSPI1Interrupt)?ABSOLUTE (__AltSPI1Interrupt):DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00012a          0x4 LONG 0x290 DEFINED (__AltU1RXInterrupt)?ABSOLUTE (__AltU1RXInterrupt):DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00012c          0x4 LONG 0x290 DEFINED (__AltU1TXInterrupt)?ABSOLUTE (__AltU1TXInterrupt):DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00012e          0x4 LONG 0x198a DEFINED (__AltADC1Interrupt)?ABSOLUTE (__AltADC1Interrupt):DEFINED (__ADC1Interrupt)?ABSOLUTE (__ADC1Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00012e          0x4 LONG 0x1828 DEFINED (__AltADC1Interrupt)?ABSOLUTE (__AltADC1Interrupt):DEFINED (__ADC1Interrupt)?ABSOLUTE (__ADC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000130          0x4 LONG 0x290 DEFINED (__AltInterrupt14)?ABSOLUTE (__AltInterrupt14):DEFINED (__Interrupt14)?ABSOLUTE (__Interrupt14):ABSOLUTE (__DefaultInterrupt)
                   0x000132          0x4 LONG 0x290 DEFINED (__AltInterrupt15)?ABSOLUTE (__AltInterrupt15):DEFINED (__Interrupt15)?ABSOLUTE (__Interrupt15):ABSOLUTE (__DefaultInterrupt)
                   0x000134          0x4 LONG 0x290 DEFINED (__AltSI2C1Interrupt)?ABSOLUTE (__AltSI2C1Interrupt):DEFINED (__SI2C1Interrupt)?ABSOLUTE (__SI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000136          0x4 LONG 0x290 DEFINED (__AltMI2C1Interrupt)?ABSOLUTE (__AltMI2C1Interrupt):DEFINED (__MI2C1Interrupt)?ABSOLUTE (__MI2C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000138          0x4 LONG 0x290 DEFINED (__AltCompInterrupt)?ABSOLUTE (__AltCompInterrupt):DEFINED (__CompInterrupt)?ABSOLUTE (__CompInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00013a          0x4 LONG 0x1b62 DEFINED (__AltCNInterrupt)?ABSOLUTE (__AltCNInterrupt):DEFINED (__CNInterrupt)?ABSOLUTE (__CNInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00013a          0x4 LONG 0x1a1e DEFINED (__AltCNInterrupt)?ABSOLUTE (__AltCNInterrupt):DEFINED (__CNInterrupt)?ABSOLUTE (__CNInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00013c          0x4 LONG 0x290 DEFINED (__AltINT1Interrupt)?ABSOLUTE (__AltINT1Interrupt):DEFINED (__INT1Interrupt)?ABSOLUTE (__INT1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00013e          0x4 LONG 0x290 DEFINED (__AltInterrupt21)?ABSOLUTE (__AltInterrupt21):DEFINED (__Interrupt21)?ABSOLUTE (__Interrupt21):ABSOLUTE (__DefaultInterrupt)
                   0x000140          0x4 LONG 0x290 DEFINED (__AltInterrupt22)?ABSOLUTE (__AltInterrupt22):DEFINED (__Interrupt22)?ABSOLUTE (__Interrupt22):ABSOLUTE (__DefaultInterrupt)
@@ -430,7 +473,7 @@ __CONFIG1         0x00abfe          0x2
                   0x000144          0x4 LONG 0x290 DEFINED (__AltInterrupt24)?ABSOLUTE (__AltInterrupt24):DEFINED (__Interrupt24)?ABSOLUTE (__Interrupt24):ABSOLUTE (__DefaultInterrupt)
                   0x000146          0x4 LONG 0x290 DEFINED (__AltOC3Interrupt)?ABSOLUTE (__AltOC3Interrupt):DEFINED (__OC3Interrupt)?ABSOLUTE (__OC3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000148          0x4 LONG 0x290 DEFINED (__AltOC4Interrupt)?ABSOLUTE (__AltOC4Interrupt):DEFINED (__OC4Interrupt)?ABSOLUTE (__OC4Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00014a          0x4 LONG 0x1b10 DEFINED (__AltT4Interrupt)?ABSOLUTE (__AltT4Interrupt):DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00014a          0x4 LONG 0x19ae DEFINED (__AltT4Interrupt)?ABSOLUTE (__AltT4Interrupt):DEFINED (__T4Interrupt)?ABSOLUTE (__T4Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00014c          0x4 LONG 0x290 DEFINED (__AltT5Interrupt)?ABSOLUTE (__AltT5Interrupt):DEFINED (__T5Interrupt)?ABSOLUTE (__T5Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00014e          0x4 LONG 0x290 DEFINED (__AltINT2Interrupt)?ABSOLUTE (__AltINT2Interrupt):DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000150          0x4 LONG 0x290 DEFINED (__AltU2RXInterrupt)?ABSOLUTE (__AltU2RXInterrupt):DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1108,16 +1151,28 @@ LOAD data_init
 LOAD default_isr
 
 __c30_signature
-                  0x000000         0x12
+                  0x000000         0x36
  __c30_signature
                   0x000000          0x6 finalProject_v1.o
  __c30_signature
                   0x000006          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(crt0_standard.o)
  __c30_signature
                   0x00000c          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(data_init_standard.o)
+ __c30_signature
+                  0x000012          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(divsf3.o)
+ __c30_signature
+                  0x000018          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(fixsfsi.o)
+ __c30_signature
+                  0x00001e          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(funpack2.o)
+ __c30_signature
+                  0x000024          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(futil.o)
+ __c30_signature
+                  0x00002a          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(fpack.o)
+ __c30_signature
+                  0x000030          0x6 c:/program files (x86)/microchip/mplab c30/bin/bin/../../lib\libm-coff.a(funpack.o)
 
-.ndata              0x0800       0x1690
- .ndata             0x0800       0x1690 finalProject_v1.o
+.ndata              0x0800       0x1766
+ .ndata             0x0800       0x1766 finalProject_v1.o
                     0x0800                  freq
                     0x0802                  t
                     0x0804                  dt
@@ -1126,45 +1181,43 @@ __c30_signature
                     0x080a                  period
                     0x080e                  i
                     0x0810                  noteTime
-                    0x09f2                  Reading_BASEIR
-                    0x09f4                  BASEIR
-                    0x09f6                  RUN
-                    0x09f8                  success
-                    0x09fa                  playback
-                    0x09fc                  record
-                    0x09fe                  recordingIndex
-                    0x0a00                  lastState
-                    0x0a02                  statemsCount
-                    0x0a04                  RIGHTIR
-                    0x0a06                  CENTERIR
-                    0x0a08                  LEFTIR
-                    0x0a0a                  p
-                    0x0a0c                  recordedState
-                    0x10e2                  stateTime
-                    0x1e8e                  stateIndex
+                    0x09f2                  notes
+                    0x0db6                  Reading_BASEIR
+                    0x0db8                  BASEIR
+                    0x0dba                  RUN
+                    0x0dbc                  success
+                    0x0dbe                  playback
+                    0x0dc0                  record
+                    0x0dc2                  recordingIndex
+                    0x0dc4                  lastState
+                    0x0dc6                  statemsCount
+                    0x0dc8                  RIGHTIR
+                    0x0dca                  CENTERIR
+                    0x0dcc                  LEFTIR
+                    0x0dce                  p
+                    0x0dd0                  recordedState
+                    0x13ac                  stateTime
+                    0x1f64                  stateIndex
 
-.nbss               0x1e90          0xc
- .nbss              0x1e90          0xc finalProject_v1.o
-                    0x1e90                  POW
-                    0x1e92                  cnt
-                    0x1e94                  tempRIGHTIR
-                    0x1e96                  tempCENTERIR
-                    0x1e98                  tempLEFTIR
-                    0x1e9a                  state
+.nbss               0x1f66          0xc
+ .nbss              0x1f66          0xc finalProject_v1.o
+                    0x1f66                  POW
+                    0x1f68                  cnt
+                    0x1f6a                  tempRIGHTIR
+                    0x1f6c                  tempCENTERIR
+                    0x1f6e                  tempLEFTIR
+                    0x1f70                  state
 
-.const              0x8294        0x3c4 load address 0x000294  
- .const             0x8294        0x3c4 finalProject_v1.o
+.dinit            0x000400        0xfa8
+ .dinit           0x000400        0xfa8 data_init
 
-.dinit            0x000658        0xf1a
- .dinit           0x000658        0xf1a data_init
-
-.text             0x001572        0x6b2
- .text            0x001572        0x6b2 finalProject_v1.o
-                  0x001572                  main
-                  0x00198a                  _ADC1Interrupt
-                  0x001ac8                  _T2Interrupt
-                  0x001adc                  _T3Interrupt
-                  0x001b10                  _T4Interrupt
-                  0x001b62                  _CNInterrupt
-                  0x001b98                  delay
-                  0x001baa                  turnAround
+.text             0x0013a8        0x76a
+ .text            0x0013a8        0x76a finalProject_v1.o
+                  0x0013a8                  main
+                  0x001828                  _ADC1Interrupt
+                  0x001966                  _T2Interrupt
+                  0x00197a                  _T3Interrupt
+                  0x0019ae                  _T4Interrupt
+                  0x001a1e                  _CNInterrupt
+                  0x001a86                  delay
+                  0x001a98                  turnAround
